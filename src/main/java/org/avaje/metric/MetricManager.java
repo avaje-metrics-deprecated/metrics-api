@@ -15,11 +15,12 @@ import org.avaje.metric.spi.PluginMetricManager;
  */
 public class MetricManager {
 
-  private static final PluginMetricManager mgr = provider();
+  private static final PluginMetricManager mgr = initialiseProvider();
 
   private static final String DEFAULT_PROVIDER = "org.avaje.metric.core.DefaultMetricManager";
 
-  private static PluginMetricManager provider() {
+  private static PluginMetricManager initialiseProvider() {
+
     ServiceLoader<PluginMetricManager> loader = ServiceLoader.load(PluginMetricManager.class);
     Iterator<PluginMetricManager> it = loader.iterator();
     if (it.hasNext()) {
@@ -28,21 +29,41 @@ public class MetricManager {
     try {
       Class<?> clazz = Class.forName(DEFAULT_PROVIDER);
       return (PluginMetricManager) clazz.newInstance();
+
     } catch (ClassNotFoundException e) {
       throw new RuntimeException("Provider " + DEFAULT_PROVIDER + " not found", e);
+
     } catch (Exception e) {
       throw new RuntimeException("Provider " + DEFAULT_PROVIDER + " could not be instantiated: " + e, e);
     }
   }
 
-  public static MetricName name(Class<?> cls, String eventName) {
-    return mgr.name(cls, eventName);
+  /**
+   * Create a MetricName based on a class and name.
+   * <p>
+   * Often the name maps to a method name.
+   */
+  public static MetricName name(Class<?> cls, String name) {
+    return mgr.name(cls, name);
   }
 
+  /**
+   * Create a Metric name based on group, type and name.
+   * 
+   * @param group
+   *          The group which often maps to a package name.
+   * @param type
+   *          The type which often maps to a simple class name.
+   * @param name
+   *          The name which often maps to a method name.
+   */
   public static MetricName name(String group, String type, String name) {
     return mgr.name(group, type, name);
   }
 
+  /**
+   * Create a Metric name by parsing a name that is expected to include periods.
+   */
   public static MetricName nameParse(String name) {
     return mgr.nameParse(name);
   }
@@ -54,8 +75,8 @@ public class MetricManager {
    * overhead.
    * </p>
    */
-  public static MetricNameCache getMetricNameCache(Class<?> klass) {
-    return mgr.getMetricNameCache(klass);
+  public static MetricNameCache getMetricNameCache(Class<?> cls) {
+    return mgr.getMetricNameCache(cls);
   }
 
   /**
@@ -132,21 +153,27 @@ public class MetricManager {
    *          the common group name
    * @param type
    *          the common type name
+   *          
    * @return the TimedMetricGroup used to create TimedMetric's that have a common base name.
    */
   public static TimedMetricGroup getTimedMetricGroup(String group, String type) {
     return getTimedMetricGroup(name(group, type, ""));
   }
 
+  /**
+   * Create and register a GaugeMetric using the gauge supplied.
+   */
   public static GaugeMetric register(MetricName name, Gauge gauge) {
     return mgr.registerGauge(name, gauge);
   }
-  
+
+  /**
+   * Create and register a GaugeCounterMetric using the gauge supplied.
+   */
   public static GaugeCounterMetric register(MetricName name, GaugeCounter gauge) {
     return mgr.registerGauge(name, gauge);
   }
-  
-  
+
   /**
    * Clear the registered metrics.
    */
