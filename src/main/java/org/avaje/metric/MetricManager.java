@@ -7,11 +7,12 @@ import java.util.ServiceLoader;
 import org.avaje.metric.spi.PluginMetricManager;
 
 /**
- * Manages the metrics creation and registration.
+ * Manages the creation and registration of Metrics.
  * <p>
  * Provides methods to allow agents to go through the registered metrics and gather/report the
  * statistics.
- * </p>
+ * <p>
+ * This uses a service locator to initialise a underlying PluginMetricManager instance. 
  */
 public class MetricManager {
 
@@ -62,7 +63,8 @@ public class MetricManager {
   }
 
   /**
-   * Create a Metric name by parsing a name that is expected to include periods.
+   * Create a Metric name by parsing a name that is expected to include periods (dot notation
+   * similar to package.Class.method).
    */
   public static MetricName nameParse(String name) {
     return mgr.nameParse(name);
@@ -172,13 +174,6 @@ public class MetricManager {
    */
   public static GaugeCounterMetric register(MetricName name, GaugeCounter gauge) {
     return mgr.registerGauge(name, gauge);
-  }
-
-  /**
-   * Clear the registered metrics.
-   */
-  public static void clear() {
-    mgr.clear();
   }
 
   /**

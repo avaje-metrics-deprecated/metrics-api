@@ -1,7 +1,7 @@
 package org.avaje.metric;
 
 /**
- * A Metric which collects statistics on events.
+ * A Metric collects statistics on events.
  */
 public interface Metric {
 

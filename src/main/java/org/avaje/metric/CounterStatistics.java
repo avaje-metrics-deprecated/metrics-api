@@ -1,5 +1,8 @@
 package org.avaje.metric;
 
+/**
+ * Statistics provided by the {@link CounterMetric}.
+ */
 public interface CounterStatistics {
 
   /**

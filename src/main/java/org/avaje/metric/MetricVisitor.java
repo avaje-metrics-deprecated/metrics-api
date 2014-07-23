@@ -1,7 +1,5 @@
 package org.avaje.metric;
 
-
-
 /**
  * Visitor for the statistics held by a metric.
  */

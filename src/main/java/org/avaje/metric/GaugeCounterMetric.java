@@ -1,7 +1,7 @@
 package org.avaje.metric;
 
 /**
- * Gauge that reports long values.
+ * Metric based on an underlying gauge that reports long values.
  */
 public interface GaugeCounterMetric extends Metric {
 

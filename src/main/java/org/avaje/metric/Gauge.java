@@ -1,7 +1,7 @@
 package org.avaje.metric;
 
 /**
- * A Gauge returns a single value.
+ * A Gauge returns a single value (double).
  * <p>
  * A Gauge typically doesn't represent an "Event" but the current value of a
  * resource like threads, memory etc.

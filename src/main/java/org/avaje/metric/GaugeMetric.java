@@ -1,7 +1,7 @@
 package org.avaje.metric;
 
 /**
- * A Gauge returning double values.
+ * Metric based on a gauge returning double values.
  */
 public interface GaugeMetric extends Metric {
 
