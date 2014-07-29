@@ -2,6 +2,8 @@ package org.avaje.metric;
 
 /**
  * Statistics provided by the {@link CounterMetric}.
+ * 
+ * @see CounterMetric#getStatistics(boolean)
  */
 public interface CounterStatistics {
 

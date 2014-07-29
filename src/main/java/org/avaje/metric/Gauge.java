@@ -5,7 +5,9 @@ package org.avaje.metric;
  * <p>
  * A Gauge typically doesn't represent an "Event" but the current value of a
  * resource like threads, memory etc.
- * </p>
+ * <p>
+ * A {@link GaugeMetric} is created by registering a Gauge via
+ * {@link MetricManager#register(MetricName, Gauge)}
  */
 public interface Gauge {
 

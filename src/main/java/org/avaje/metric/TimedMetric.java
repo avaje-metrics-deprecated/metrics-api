@@ -8,7 +8,9 @@ package org.avaje.metric;
  * Note that success and error statistics are kept separately and reported separately. It is
  * generally useful to know which methods are invoking errors and in addition the timing of success
  * and error execution can be very different.
- *
+ * <p>
+ * A TimedMetric is returned via {@link MetricManager#getTimedMetric(MetricName)} (or variant). This
+ * will automatically create and register the TimedMetric if it does not already exist.
  */
 public interface TimedMetric extends Metric {
 
@@ -35,9 +37,9 @@ public interface TimedMetric extends Metric {
   /**
    * Start an event.
    * <p>
-   * The {@link DefaultTimedMetricEvent#endWithSuccess()} or
-   * {@link DefaultTimedMetricEvent#endWithSuccess()} are called at the completion of the timed
-   * event.
+   * At the completion of the event {@link TimedEvent#endWithSuccess()},
+   * {@link TimedEvent#endWithError()} or {@link TimedEvent#end(boolean)} are called to record the
+   * event duration and success or otherwise.
    * </p>
    */
   public TimedEvent startEvent();
@@ -60,7 +62,6 @@ public interface TimedMetric extends Metric {
    */
   public void addEventDuration(boolean success, long durationNanos);
 
-  
   /**
    * Add an event duration with opCode indicating success or failure. This is intended for use by
    * enhanced code and not general use.

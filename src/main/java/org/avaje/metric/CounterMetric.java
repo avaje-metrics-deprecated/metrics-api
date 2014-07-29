@@ -4,6 +4,8 @@ package org.avaje.metric;
  * Metric based on a counter (long value).
  * <p>
  * Can be used to count units like bytes, rows, events but generally not time.
+ *
+ * @see MetricManager#getCounterMetric(Class, String)
  */
 public interface CounterMetric extends Metric {
 
