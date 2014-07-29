@@ -43,6 +43,15 @@ public interface TimedMetric extends Metric {
   public TimedEvent startEvent();
 
   /**
+   * Add an event based on a startNanos (determined by {@link System#nanoTime()}).
+   * <p>
+   * Success and failure statistics are kept separately.
+   * <p>
+   * This is an alternative to using {@link #startEvent()}.
+   */
+  public void addEventSince(boolean success, long startNanos);
+
+  /**
    * Add an event duration in nanoseconds noting if it was a success or failure result.
    * <p>
    * Success and failure statistics are kept separately.
@@ -51,6 +60,7 @@ public interface TimedMetric extends Metric {
    */
   public void addEventDuration(boolean success, long durationNanos);
 
+  
   /**
    * Add an event duration with opCode indicating success or failure. This is intended for use by
    * enhanced code and not general use.
