@@ -6,9 +6,32 @@ This project started as a fork and refactor of https://github.com/codahale/metri
 
 ## Design Goals
 
-- All the metrics are collected and reported frequently (every minute or every 5 minutes). 
+- Low overhead: Statistics collectors are kept simple (count/total/average/maximum). Makes use of jsr166e `LongAdder` and `LongMaxUpdater` which minimises contention that can occur when using AtomicLong on systems with lots of cores. The overhead of using Histograms and MovingAverages is higher.
 
-- Statistics collectors are kept simple (count/total/average/maximum) with relatively small overhead cost of collection.
+- Metrics are collected and reported frequently (every minute typically). 
+
+- You can add metrics you your JVM/Java Application without ANY code changes by using enhancement. Classes annotated with `@Singleton`, JAX-RS Annotations (like `@Path`, `@Comsumes`, `@Produces`) or Spring sterotypes (like `@Service`, `@Component`, `@Repository` etc) can have their public and protected methods automatically enhanced to collect timing metrics.
+
+
+### Business Drivers
+
+With good application performance metrics we can gain insight into the application. This can improve
+communication between Business, Development and DevOps. Without good metrics the following questions 
+can be hard to answer:
+
+- How is the application performing in Production (relative to some baseline)?
+- Seasonal/peak loads: When do they occur and how well are they handled?
+- Performance Trends: How does performance compare to last week / last month / previous release / growing data ?
+- Early performance issue detection: Collect metrics during development, collect it all the time.
+- Capacity planning: How close to capacity is our running environment?
+- How does performance compared between environments (PROD, TEST, DEV) and servers?
+ 
+
+### Use via enhancement or via code
+
+You can use avaje-metrics using code and currently enhancement only adds `TimedMetric`s and not `CounterMetric` or `ValueMetric` so you need to write code to add those. However frequently people are mostly interested in collecting timing metrics on the various parts of their application (certainly initially) and using enhancement means this can be done without any code changes (for JAX-RS, Spring applications).
+
+Using enhancement also makes it painless to collect both success and error statistics. When collecting error statistics using code you typically need to write catch blocks and that is not FUN. When using enhancement when any timed method throws an exception that timed event goes into separate error statistics. 
 
 
 #### TimedMetric via Code
