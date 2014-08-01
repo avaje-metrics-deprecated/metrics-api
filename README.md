@@ -33,6 +33,24 @@ You can use avaje-metrics using code and currently enhancement only adds `TimedM
 
 Using enhancement also makes it painless to collect both success and error statistics. When collecting error statistics using code you typically need to write catch blocks and that is not FUN. When using enhancement when any timed method throws an exception that timed event goes into separate error statistics. 
 
+## Maven dependencies
+
+Add the following 2 dependencies to your project.
+
+```xml
+<dependency>
+    <groupId>org.avaje.metric</groupId>
+    <artifactId>avaje-metric-api</artifactId>
+    <version>3.2.0</version>
+</dependency>
+
+<dependency>
+    <groupId>org.avaje.metric</groupId>
+    <artifactId>avaje-metric-core</artifactId>
+    <version>3.2.0</version>
+</dependency>
+```
+
 
 ## Getting started with enhancement
 
@@ -42,6 +60,8 @@ With maven add a build plugin `org.avaje.metric`, `enhance-maven-plugin` and spe
 want to be scanned for classes annotated with `@Timed`, `@Singleton`,  JAX-RS or Spring annotations.
 
 ```xml
+  <build>
+    
     <plugin>
       <groupId>org.avaje.metric</groupId>
       <artifactId>enhance-maven-plugin</artifactId>
@@ -61,6 +81,8 @@ want to be scanned for classes annotated with `@Timed`, `@Singleton`,  JAX-RS or
         </execution>
       </executions>
     </plugin>
+    
+  </build>
 ```
 
 ### MetricReporter
@@ -89,7 +111,8 @@ You can optionally add a metric-name-mapping.txt file to your src/main/resources
 In this file you can put some key=value pairs that can be used to modify the metrics names -
 typically trimming the package name part and adding some prefixs like `web.api`, `web.sockets`, `dataaccess`, `integration`. 
 
-The reason for doing this is so that it is easier to rollup/group related metrics. 
+The primary reason for doing this is so that it is easier to rollup/group related metrics and
+much of the package name is redundant. 
 
 ```properties
 org.example.myapp.endpoint=web.api
