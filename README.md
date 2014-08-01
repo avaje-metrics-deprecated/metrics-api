@@ -26,7 +26,7 @@ package org.example.service;
      */
     private static final TimedMetric METRIC_SAY_HELLO = MetricManager.getTimedMetric(MyService.class, "sayHello");
 
-    public static String sayHello(String name) {
+    public String sayHello(String name) {
 
         long startNanos = System.nanoTime();
         try {
@@ -34,13 +34,66 @@ package org.example.service;
             return "Hello "+name;
             
         } finally {
-            // 
+            // A TimedMetric can collect both success and error statistics
+            // Here we add treating the event as a 'success' 
             METRIC_SAY_HELLO.addEventSince(true, startNanos);
         }
     }
 }
 ```
 
+
+#### TimedMetric via annotation 
+
+Put `@Timed` on a class so that timing metrics are collected on each public method.
+
+
+```java
+package org.example.service;
+  ...
+
+  @Timed
+  public class MyService {
+    ...
+  }
+
+}
+```
+
+Use `@NotTimed` to exclude specific methods from being timed.
+
+
+```java
+package org.example.service;
+  ...
+
+  @Timed
+  public class MyService {
+  
+    ...
+    
+    @NotTimed
+    public String sayHello(String name) {
+      ...
+    }
+
+}
+```
+
+Alternatively you can put `@Timed` on specific methods.
+
+
+```java
+package org.example.service;
+  ...
+  public class MyService {
+  
+    @Timed
+    public String sayHello(String name) {
+      ...
+    }
+}
+```
 
 ## Why not use codahale/metrics?
 
