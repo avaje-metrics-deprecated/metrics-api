@@ -6,14 +6,14 @@ This project started as a fork and refactor of https://github.com/codahale/metri
 
 ## Design Goals
 
-- Low overhead: Statistics collectors are kept simple (count/total/average/maximum). Makes use of jsr166e `LongAdder` and `LongMaxUpdater` which minimises contention that can occur when using AtomicLong on systems with lots of cores. The overhead of using Histograms and MovingAverages is higher.
+- Low overhead: Statistics collectors are kept simple (count/total/average/maximum). Use `LongAdder` and `LongMaxUpdater` which minimises contention that can occur when using AtomicLong (e.g. http://minddotout.wordpress.com/2013/05/11/java-8-concurrency-longadder/). The overhead of using Histograms and MovingAverages is higher.
 
 - Metrics are collected and reported frequently (every minute typically). 
 
 - You can add metrics you your JVM/Java Application without ANY code changes by using enhancement. Classes annotated with `@Singleton`, JAX-RS Annotations (like `@Path`, `@Comsumes`, `@Produces`) or Spring sterotypes (like `@Service`, `@Component`, `@Repository` etc) can have their public and protected methods automatically enhanced to collect timing metrics.
 
 
-### Business Drivers
+## Business Drivers
 
 With good application performance metrics we can gain insight into the application. This can improve
 communication between Business, Development and DevOps. Without good metrics the following questions 
@@ -27,16 +27,92 @@ can be hard to answer:
 - How does performance compared between environments (PROD, TEST, DEV) and servers?
  
 
-### Use via enhancement or via code
+## Enhancement or Code
 
 You can use avaje-metrics using code and currently enhancement only adds `TimedMetric`s and not `CounterMetric` or `ValueMetric` so you need to write code to add those. However frequently people are mostly interested in collecting timing metrics on the various parts of their application (certainly initially) and using enhancement means this can be done without any code changes (for JAX-RS, Spring applications).
 
 Using enhancement also makes it painless to collect both success and error statistics. When collecting error statistics using code you typically need to write catch blocks and that is not FUN. When using enhancement when any timed method throws an exception that timed event goes into separate error statistics. 
 
 
-#### TimedMetric via Code
+## Getting started with enhancement
 
-A `TimedMetric` example using code:
+### Maven build plugin
+
+With maven add a build plugin `org.avaje.metric`, `enhance-maven-plugin` and specify the packages that you 
+want to be scanned for classes annotated with `@Timed`, `@Singleton`,  JAX-RS or Spring annotations.
+
+```xml
+    <plugin>
+      <groupId>org.avaje.metric</groupId>
+      <artifactId>enhance-maven-plugin</artifactId>
+      <version>3.2.0</version>
+      <executions>
+         <execution>
+          <id>main</id>
+          <phase>process-classes</phase>
+          <configuration>
+            <classSource>target/classes</classSource>
+            <packages>org.example.myapp.**</packages>
+            <transformArgs>debug=1</transformArgs>
+          </configuration>
+          <goals>
+            <goal>enhance</goal>
+          </goals>
+        </execution>
+      </executions>
+    </plugin>
+```
+
+### MetricReporter
+
+Add a MetricReporter instance to your application.
+
+```java
+...
+import org.avaje.metric.filereport.FileReporter;
+import org.avaje.metric.report.MetricReportManager;
+...
+
+  // Just use the simple FileReporter that comes with avaje-metric-core.
+  // Writes metrics in a csv format every 60 seconds. Defaults to write a
+  // daily file and keep a maximum of 20 files
+  
+  FileReporter file = new FileReporter();
+  MetricReportManager reportManager = new MetricReportManager(60, file);
+
+
+```
+
+### metric-name-mapping.txt
+
+You can optionally add a metric-name-mapping.txt file to your src/main/resources.  
+In this file you can put some key=value pairs that can be used to modify the metrics names -
+typically trimming the package name part and adding some prefixs like `web.api`, `web.sockets`, `dataaccess`, `integration`. 
+
+The reason for doing this is so that it is easier to rollup/group related metrics. 
+
+```properties
+org.example.myapp.endpoint=web.api
+org.example.myapp.repository.dao=dataaccess
+org.example.myapp=myapp
+```
+
+### @Timed and @NotTimed annotations
+
+You can additionally add a @Timed annotation on classes or methods to indicate that
+this class (all public methods) or a specific method should be enhanced to collect timing metrics.
+
+You can use @NotTimed to specify that a class or method should not have any timing metrics.
+
+
+
+## Using Code
+
+You can add TimedMetrics using code and currently for ValueMetric and GaugeMetric you need to
+write code to add these metrics.
+
+
+### TimedMetric
 
 
 ```java
@@ -45,7 +121,8 @@ package org.example.service;
   public class MyService {
   
     /**
-     * Create a TimedMetric with name "org.example.service.MyService.sayHello" 
+     * Create a TimedMetric with name "org.example.service.MyService.sayHello".
+     * Typically the metrics are static fields to avoid some map lookup overhead.
      */
     private static final TimedMetric METRIC_SAY_HELLO = MetricManager.getTimedMetric(MyService.class, "sayHello");
 
@@ -142,11 +219,21 @@ similar value with a much lower overhead.
 and reporting of simple aggregate statistics.
 
 
+## Why not use Netflix/servo?
  
+This is a library worth looking at. The BasicTimer has a similar design but personally I do not like the internals (use of synchronized, extra GC and not using LongAdder or LongMaxUpdater). It does have some interesting features and is worth watching.
+
 
 ## License
 
 Published under Apache Software License 2.0, see LICENSE
 
-Also refer to https://github.com/codahale/metrics.
+
+## Similar Projects
+
+- https://github.com/codahale/metrics
+- https://github.com/Netflix/servo
+- https://code.google.com/p/javasimon/
+- https://github.com/perf4j/perf4j
+ 
 
