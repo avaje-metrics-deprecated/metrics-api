@@ -10,7 +10,7 @@ This project started as a fork and refactor of https://github.com/codahale/metri
 
 - Metrics are collected and reported frequently (every minute typically). 
 
-- You can add metrics you your JVM/Java Application without ANY code changes by using enhancement. Classes annotated with `@Singleton`, JAX-RS Annotations (like `@Path`, `@Comsumes`, `@Produces`) or Spring sterotypes (like `@Service`, `@Component`, `@Repository` etc) can have their public and protected methods automatically enhanced to collect timing metrics.
+- You can add metrics you your JVM/Java Application without any code changes by using enhancement. Classes annotated with `@Singleton`, JAX-RS Annotations (like `@Path`, `@Comsumes`, `@Produces`) or Spring sterotypes (like `@Service`, `@Component`, `@Repository` etc) can have their public and protected methods automatically enhanced to collect timing metrics.
 
 
 ## Business Drivers
