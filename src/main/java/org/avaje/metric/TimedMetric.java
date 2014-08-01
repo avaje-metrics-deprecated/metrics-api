@@ -11,19 +11,22 @@ package org.avaje.metric;
  * 
  * <pre>
  * <code>
+ *  
  *  // Declare the metric (typically as a static field)
+ *  
  *  static final TimedMetric timedUserLogin = MetricManager.getTimedMetric(MyService.class, "performLogin");
  *  ...
  *  
  *  public void performLogin() {
  *    
  *    long startNanos = System.nanoTime();
+ *    
  *    try {
- *    ...
+ *      ...
  *    
  *    
  *    } finally {
- *      // 
+ *      // Add the event to the success statistics
  *      timedUserLogin.addEventSince(true, startNanos);
  *    }
  *  }
@@ -71,7 +74,7 @@ package org.avaje.metric;
  *    ...
  *  
  *  } finally {
- *    // Add the event to the 'success' statistics
+ *    // Add the event to the success statistics
  *    timedEvent.endWithSuccess();
  *  }
  *  

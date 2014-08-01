@@ -67,7 +67,7 @@ public interface PluginMetricManager {
   /**
    * Return the MetricNameCache using the class as a base name.
    */
-  public MetricNameCache getMetricNameCache(Class<?> klass);
+  public MetricNameCache getMetricNameCache(Class<?> cls);
 
   /**
    * Return the MetricNameCache using a MetricName as a base name.
