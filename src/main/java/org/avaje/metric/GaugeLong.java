@@ -1,15 +1,14 @@
 package org.avaje.metric;
 
 /**
- * A Gauge that returns a single value (long).
+ * A Gauge returning a long value providing the 'source' for a {@link GaugeLongMetric}.
  * <p>
  * A Gauge typically doesn't represent an "Event" but the current value of a resource like threads,
  * memory etc.
- * <p>
- * A {@link GaugeCounterMetric} is created by registering a GaugeCounter via
- * {@link MetricManager#register(MetricName, GaugeCounter)}
+ * 
+ * @see GaugeLongMetric
  */
-public interface GaugeCounter {
+public interface GaugeLong {
 
   /**
    * Return the current value.

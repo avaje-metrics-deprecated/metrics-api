@@ -2,6 +2,24 @@ package org.avaje.metric;
 
 /**
  * A TimedEvent that is ended with either success or error.
+ * <p>
+ * Example:
+ * <pre>
+ * <code>
+ *  TimedMetric metric = MetricManager.getTimedMetric(MyService.class, "sayHello");
+ *  ...
+ *  
+ *  TimedEvent timedEvent = metric.startEvent();
+ *  try {
+ *    ...
+ *  
+ *  } finally {
+ *    // Add the event to the 'success' statistics
+ *    timedEvent.endWithSuccess();
+ *  }
+ *  
+ * </code>
+ * </pre>
  * 
  * @see TimedMetric#startEvent()
  */

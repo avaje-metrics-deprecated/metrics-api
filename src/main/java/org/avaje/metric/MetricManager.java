@@ -12,14 +12,24 @@ import org.avaje.metric.spi.PluginMetricManager;
  * Provides methods to allow agents to go through the registered metrics and gather/report the
  * statistics.
  * <p>
- * This uses a service locator to initialise a underlying PluginMetricManager instance. 
+ * This uses a service locator to initialise a underlying PluginMetricManager instance. A default
+ * implementation of PluginMetricManager is provided by <em>avaje-metric-core</em>.
  */
 public class MetricManager {
 
+  /**
+   * The implementation that is found via service loader.
+   */
   private static final PluginMetricManager mgr = initialiseProvider();
 
+  /**
+   * The default implementation which is avaje-metric-core.
+   */
   private static final String DEFAULT_PROVIDER = "org.avaje.metric.core.DefaultMetricManager";
 
+  /**
+   * Finds and returns the implementation of PluginMetricManager using the ServiceLoader.
+   */
   private static PluginMetricManager initialiseProvider() {
 
     ServiceLoader<PluginMetricManager> loader = ServiceLoader.load(PluginMetricManager.class);
@@ -66,8 +76,8 @@ public class MetricManager {
    * Create a Metric name by parsing a name that is expected to include periods (dot notation
    * similar to package.Class.method).
    */
-  public static MetricName nameParse(String name) {
-    return mgr.nameParse(name);
+  public static MetricName name(String name) {
+    return mgr.name(name);
   }
 
   /**
@@ -121,23 +131,37 @@ public class MetricManager {
   }
 
   /**
+   * Return a CounterMetric given the name.
+   */
+  public static CounterMetric getCounterMetric(String name) {
+    return mgr.getCounterMetric(name);
+  }
+  
+  /**
    * Return a CounterMetric using the Class and name to derive the MetricName.
    */
   public static CounterMetric getCounterMetric(Class<?> cls, String eventName) {
-    return getCounterMetric(name(cls, eventName));
+    return mgr.getCounterMetric(cls, eventName);
   }
 
   /**
    * Return a ValueMetric using the Class and name to derive the MetricName.
    */
   public static ValueMetric getValueMetric(Class<?> cls, String eventName) {
-    return getValueMetric(name(cls, eventName));
+    return mgr.getValueMetric(cls, eventName);
   }
 
   /**
    * Return a ValueMetric given the name.
    */
   public static ValueMetric getValueMetric(MetricName name) {
+    return mgr.getValueMetric(name);
+  }
+
+  /**
+   * Return a ValueMetric given the name.
+   */
+  public static ValueMetric getValueMetric(String name) {
     return mgr.getValueMetric(name);
   }
 
@@ -165,15 +189,29 @@ public class MetricManager {
   /**
    * Create and register a GaugeMetric using the gauge supplied.
    */
-  public static GaugeMetric register(MetricName name, Gauge gauge) {
+  public static GaugeDoubleMetric register(MetricName name, GaugeDouble gauge) {
+    return mgr.registerGauge(name, gauge);
+  }
+
+  /**
+   * Create and register a GaugeMetric using the gauge supplied.
+   */
+  public static GaugeDoubleMetric register(String name, GaugeDouble gauge) {
+    return mgr.registerGauge(name(name), gauge);
+  }
+
+  /**
+   * Create and register a GaugeCounterMetric using the gauge supplied.
+   */
+  public static GaugeLongMetric register(MetricName name, GaugeLong gauge) {
     return mgr.registerGauge(name, gauge);
   }
 
   /**
    * Create and register a GaugeCounterMetric using the gauge supplied.
    */
-  public static GaugeCounterMetric register(MetricName name, GaugeCounter gauge) {
-    return mgr.registerGauge(name, gauge);
+  public static GaugeLongMetric register(String name, GaugeLong gauge) {
+    return mgr.registerGauge(name(name), gauge);
   }
 
   /**

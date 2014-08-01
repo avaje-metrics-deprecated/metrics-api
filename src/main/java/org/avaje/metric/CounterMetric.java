@@ -4,8 +4,21 @@ package org.avaje.metric;
  * Metric based on a counter (long value).
  * <p>
  * Can be used to count units like bytes, rows, events but generally not time.
- *
- * @see MetricManager#getCounterMetric(Class, String)
+ * <pre>
+ * <code>
+ *  // Declare the counter (typically as a static field)
+ *  static final CounterMetric userLoginCounter = MetricManager.getCounterMetric(MyService.class, "userLogin");
+ *  ...
+ *  
+ *  public void performUserLogin() {
+ *  
+ *    // increment the counter
+ *    userLoginCounter.markEvent();
+ *    ...
+ *  }
+ *  
+ * </code>
+ * </pre>
  */
 public interface CounterMetric extends Metric {
 

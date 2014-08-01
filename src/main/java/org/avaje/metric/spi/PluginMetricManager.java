@@ -3,10 +3,10 @@ package org.avaje.metric.spi;
 import java.util.Collection;
 
 import org.avaje.metric.CounterMetric;
-import org.avaje.metric.Gauge;
-import org.avaje.metric.GaugeCounter;
-import org.avaje.metric.GaugeCounterMetric;
-import org.avaje.metric.GaugeMetric;
+import org.avaje.metric.GaugeDouble;
+import org.avaje.metric.GaugeLong;
+import org.avaje.metric.GaugeLongMetric;
+import org.avaje.metric.GaugeDoubleMetric;
 import org.avaje.metric.Metric;
 import org.avaje.metric.MetricName;
 import org.avaje.metric.MetricNameCache;
@@ -35,9 +35,29 @@ public interface PluginMetricManager {
   public CounterMetric getCounterMetric(MetricName name);
 
   /**
+   * Return the CounterMetric using the metric name.
+   */
+  public CounterMetric getCounterMetric(String name);
+
+  /**
+   * Return the CounterMetric using the Class and eventName to define the metric name.
+   */
+  public CounterMetric getCounterMetric(Class<?> cls, String eventName);
+
+  /**
+   * Return a ValueMetric using given the full metric name.
+   */
+  public ValueMetric getValueMetric(String name);
+
+  /**
    * Return the ValueMetric using the metric name.
    */
   public ValueMetric getValueMetric(MetricName name);
+
+  /**
+   * Return a ValueMetric using the Class and name to derive the MetricName.
+   */
+  public ValueMetric getValueMetric(Class<?> cls, String eventName);
 
   /**
    * Return the TimedMetricGroup using the given base metric name.
@@ -89,19 +109,31 @@ public interface PluginMetricManager {
   public MetricName name(String group, String type, String name);
 
   /**
-   * Create a Metric name by parsing a name that is expected to include periods (dot notation
-   * similar to package.Class.method).
+   * Create a Metric name by parsing a name that is expected to include periods.
+   * <p>
+   * The name is expected to be in dot notation similar to <code>package.class.method</code>.
    */
-  public MetricName nameParse(String name);
+  public MetricName name(String name);
 
   /**
    * Create and register a GaugeMetric using the gauge supplied (double values).
    */
-  public GaugeMetric registerGauge(MetricName name, Gauge gauge);
+  public GaugeDoubleMetric registerGauge(MetricName name, GaugeDouble gauge);
+
+  /**
+   * Create and register a GaugeMetric using the gauge supplied (double values).
+   */
+  public GaugeDoubleMetric registerGauge(String name, GaugeDouble gauge);
 
   /**
    * Create and register a GaugeCounterMetric using the gauge supplied (long values).
    */
-  public GaugeCounterMetric registerGauge(MetricName name, GaugeCounter gauge);
+  public GaugeLongMetric registerGauge(MetricName name, GaugeLong gauge);
+
+  /**
+   * Create and register a GaugeCounterMetric using the gauge supplied (long values).
+   */
+  public GaugeLongMetric registerGauge(String name, GaugeLong gauge);
+
 
 }

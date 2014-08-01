@@ -23,20 +23,20 @@ public interface MetricVisitor {
   /**
    * Visit an individual GaugeMetric.
    */
-  public void visit(GaugeMetric gaugeMetric);
+  public void visit(GaugeDoubleMetric gaugeMetric);
 
   /**
    * Visit a GaugeMetricGroup.
    */
-  public void visit(GaugeMetricGroup gaugeMetricGroup);
+  public void visit(GaugeDoubleGroup gaugeMetricGroup);
 
   /**
    * Visit an individual IntGaugeMetric.
    */
-  public void visit(GaugeCounterMetric gaugeMetric);
+  public void visit(GaugeLongMetric gaugeMetric);
   
   /**
    * Visit a IntGaugeMetricGroup.
    */
-  public void visit(GaugeCounterMetricGroup gaugeMetricGroup);
+  public void visit(GaugeLongGroup gaugeMetricGroup);
 }
