@@ -1,17 +1,49 @@
-avaje-metric-api
-================
+# avaje-metric-api
+
 The Public API for avaje metric.
 
 This project started as a fork and refactor of https://github.com/codahale/metrics but is now significantly different.
 
-Design Goals
---------------------------
+## Design Goals
+
 - All the metrics are collected and reported frequently (every minute or every 5 minutes). 
 
 - Statistics collectors are kept simple (count/total/average/maximum) with relatively small overhead cost of collection.
 
-Why not use codahale/metrics?
---------------------------
+
+#### TimedMetric via Code
+
+A `TimedMetric` example using code:
+
+
+```java
+package org.example.service;
+  ...
+  public class MyService {
+  
+    /**
+     * Create a TimedMetric with name "org.example.service.MyService.sayHello" 
+     */
+    private static final TimedMetric METRIC_SAY_HELLO = MetricManager.getTimedMetric(MyService.class, "sayHello");
+
+    public static String sayHello(String name) {
+
+        long startNanos = System.nanoTime();
+        try {
+            ...
+            return "Hello "+name;
+            
+        } finally {
+            // 
+            METRIC_SAY_HELLO.addEventSince(true, startNanos);
+        }
+    }
+}
+```
+
+
+## Why not use codahale/metrics?
+
 - For "Timed Events" codehale/metrics is orientated towards using Moving Averages and Histograms and
   these are relatively heavy weight collectors.
 
@@ -36,8 +68,7 @@ and reporting of simple aggregate statistics.
 
  
 
-License
--------
+## License
 
 Published under Apache Software License 2.0, see LICENSE
 
