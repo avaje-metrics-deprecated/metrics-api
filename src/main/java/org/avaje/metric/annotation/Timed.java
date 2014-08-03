@@ -5,6 +5,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.avaje.metric.BucketTimedMetric;
+import org.avaje.metric.TimedMetric;
+
 /**
  * Marker that public methods should have timed execution statistics collected.
  */
@@ -30,4 +33,19 @@ public @interface Timed {
    */
   String fullName() default "";
 
+  
+  /**
+   * Define buckets as a list of millisecond times.
+   * <p>
+   * For example with values of 100, 200, 300 there a with 4 bucket ranges of:
+   * <pre>
+   *      0 to 100 milliseconds
+   *    100 to 200 milliseconds
+   *    200 to 300 milliseconds
+   *    300+       milliseconds
+   * </pre>
+   * <p>
+   * Defining buckets means a {@link BucketTimedMetric} will be used instead of a {@link TimedMetric}.
+   */
+  int[] buckets() default {};
 }
