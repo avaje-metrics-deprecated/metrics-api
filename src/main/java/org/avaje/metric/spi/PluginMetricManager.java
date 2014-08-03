@@ -2,6 +2,7 @@ package org.avaje.metric.spi;
 
 import java.util.Collection;
 
+import org.avaje.metric.BucketTimedMetric;
 import org.avaje.metric.CounterMetric;
 import org.avaje.metric.GaugeDouble;
 import org.avaje.metric.GaugeLong;
@@ -20,45 +21,55 @@ import org.avaje.metric.ValueMetric;
 public interface PluginMetricManager {
 
   /**
-   * Return the TimedMetric using the metric name given in string dot notation.
+   * Create a MetricName based on the class and name.
+   * Typically name is a method name.
    */
-  public TimedMetric getTimedMetric(String name);
+  public MetricName name(Class<?> cls, String name);
 
+  /**
+   * Create a Metric name based on group, type and name.
+   * 
+   * @param group
+   *          The group which often maps to a package name.
+   * @param type
+   *          The type which often maps to a simple class name.
+   * @param name
+   *          The name which often maps to a method name.
+   */
+  public MetricName name(String group, String type, String name);
+
+  /**
+   * Create a Metric name by parsing a name that is expected to include periods.
+   * <p>
+   * The name is expected to be in dot notation similar to <code>package.class.method</code>.
+   */
+  public MetricName name(String name);
+  
   /**
    * Return the TimedMetric using the metric name.
    */
   public TimedMetric getTimedMetric(MetricName name);
 
   /**
+   * Return the BucketTimedMetric using the given base metric name and bucketRanges.
+   * 
+   * @param name
+   *          The metric name
+   * @param bucketRanges
+   *          Time in milliseconds which are used to create buckets.
+   */
+  public BucketTimedMetric getBucketTimedMetric(MetricName name, int... bucketRanges);
+  
+  /**
    * Return the CounterMetric using the metric name.
    */
   public CounterMetric getCounterMetric(MetricName name);
 
   /**
-   * Return the CounterMetric using the metric name.
-   */
-  public CounterMetric getCounterMetric(String name);
-
-  /**
-   * Return the CounterMetric using the Class and eventName to define the metric name.
-   */
-  public CounterMetric getCounterMetric(Class<?> cls, String eventName);
-
-  /**
-   * Return a ValueMetric using given the full metric name.
-   */
-  public ValueMetric getValueMetric(String name);
-
-  /**
    * Return the ValueMetric using the metric name.
    */
   public ValueMetric getValueMetric(MetricName name);
-
-  /**
-   * Return a ValueMetric using the Class and name to derive the MetricName.
-   */
-  public ValueMetric getValueMetric(Class<?> cls, String eventName);
-
+  
   /**
    * Return the TimedMetricGroup using the given base metric name.
    */
@@ -91,49 +102,13 @@ public interface PluginMetricManager {
   public Collection<Metric> getJvmMetrics();
 
   /**
-   * Create a MetricName based on the class and name.
-   * Typically name is a method name.
-   */
-  public MetricName name(Class<?> cls, String name);
-
-  /**
-   * Create a Metric name based on group, type and name.
-   * 
-   * @param group
-   *          The group which often maps to a package name.
-   * @param type
-   *          The type which often maps to a simple class name.
-   * @param name
-   *          The name which often maps to a method name.
-   */
-  public MetricName name(String group, String type, String name);
-
-  /**
-   * Create a Metric name by parsing a name that is expected to include periods.
-   * <p>
-   * The name is expected to be in dot notation similar to <code>package.class.method</code>.
-   */
-  public MetricName name(String name);
-
-  /**
    * Create and register a GaugeMetric using the gauge supplied (double values).
    */
   public GaugeDoubleMetric registerGauge(MetricName name, GaugeDouble gauge);
 
   /**
-   * Create and register a GaugeMetric using the gauge supplied (double values).
-   */
-  public GaugeDoubleMetric registerGauge(String name, GaugeDouble gauge);
-
-  /**
    * Create and register a GaugeCounterMetric using the gauge supplied (long values).
    */
   public GaugeLongMetric registerGauge(MetricName name, GaugeLong gauge);
-
-  /**
-   * Create and register a GaugeCounterMetric using the gauge supplied (long values).
-   */
-  public GaugeLongMetric registerGauge(String name, GaugeLong gauge);
-
 
 }

@@ -27,4 +27,12 @@ public interface MetricName extends Comparable<MetricName> {
    */
   public String getSimpleName();
 
+  /**
+   * Create and return another MetricName based on this instance with an additional suffix added to
+   * the name.
+   * 
+   * @param nameSuffix
+   *          The addition text added to this metrics name.
+   */
+  public MetricName withSuffix(String nameSuffix);
 }

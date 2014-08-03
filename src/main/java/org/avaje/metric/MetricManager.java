@@ -103,6 +103,34 @@ public class MetricManager {
   }
 
   /**
+   * Return a BucketTimedMetric given the name and bucket ranges.
+   */
+  public static BucketTimedMetric getTimedMetric(MetricName name, int... bucketRanges) {
+    return mgr.getBucketTimedMetric(name, bucketRanges);
+  }
+
+  /**
+   * Return a BucketTimedMetric given the name and bucket ranges.
+   */
+  public static BucketTimedMetric getTimedMetric(Class<?> cls, String name, int... bucketRanges) {
+    return getTimedMetric(name(cls, name), bucketRanges);
+  }
+  
+  /**
+   * Return a BucketTimedMetric given the name and bucket ranges.
+   */
+  public static BucketTimedMetric getTimedMetric(String name, int... bucketRanges) {
+    return getTimedMetric(name(name), bucketRanges);
+  }
+  
+  /**
+   * Return a TimedMetric given the name.
+   */
+  public static TimedMetric getTimedMetric(MetricName name) {
+    return mgr.getTimedMetric(name);
+  }
+  
+  /**
    * Return a TimedMetric using the Class, name to derive the MetricName.
    */
   public static TimedMetric getTimedMetric(Class<?> cls, String eventName) {
@@ -112,15 +140,8 @@ public class MetricManager {
   /**
    * Return a TimedMetric given the name.
    */
-  public static TimedMetric getTimedMetric(MetricName name) {
-    return mgr.getTimedMetric(name);
-  }
-
-  /**
-   * Return a TimedMetric given the name.
-   */
   public static TimedMetric getTimedMetric(String name) {
-    return mgr.getTimedMetric(name);
+    return getTimedMetric(name(name));
   }
 
   /**
@@ -134,21 +155,14 @@ public class MetricManager {
    * Return a CounterMetric given the name.
    */
   public static CounterMetric getCounterMetric(String name) {
-    return mgr.getCounterMetric(name);
+    return getCounterMetric(name(name));
   }
   
   /**
    * Return a CounterMetric using the Class and name to derive the MetricName.
    */
   public static CounterMetric getCounterMetric(Class<?> cls, String eventName) {
-    return mgr.getCounterMetric(cls, eventName);
-  }
-
-  /**
-   * Return a ValueMetric using the Class and name to derive the MetricName.
-   */
-  public static ValueMetric getValueMetric(Class<?> cls, String eventName) {
-    return mgr.getValueMetric(cls, eventName);
+    return getCounterMetric(name(cls, eventName));
   }
 
   /**
@@ -157,12 +171,19 @@ public class MetricManager {
   public static ValueMetric getValueMetric(MetricName name) {
     return mgr.getValueMetric(name);
   }
+  
+  /**
+   * Return a ValueMetric using the Class and name to derive the MetricName.
+   */
+  public static ValueMetric getValueMetric(Class<?> cls, String eventName) {
+    return getValueMetric(name(cls, eventName));
+  }
 
   /**
    * Return a ValueMetric given the name.
    */
   public static ValueMetric getValueMetric(String name) {
-    return mgr.getValueMetric(name);
+    return getValueMetric(name(name));
   }
 
   /**

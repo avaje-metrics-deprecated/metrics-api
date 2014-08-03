@@ -1,20 +1,32 @@
 package org.avaje.metric;
 
 /**
- * Collects and provides statics for a timed event.
+ * Used to collect timed metrics but puts the statistics into millisecond time ranges (buckets).
  * <p>
- * Typically collects execution statistics for a method. TimedMetric has the ability to keep
- * separate statistics for success and error execution. It is generally useful to know which methods
- * are invoking errors and differences in execution time of errors versus successful execution.
+ * In providing millisecond bucket ranges of 200, 400, 600 this will create 4 buckets to put the
+ * execution statistics into. The first range will be for all events that take between 0 and 200
+ * milliseconds, the second range will be for all events that take between 200 and 400 milliseconds,
+ * the third range will take events that take between 400 and 600 milliseconds and the last bucket
+ * takes all events that take longer than 600 milliseconds.
  * <p>
- * <em>Example:</em> Using {@link TimedMetric#addEventSince(boolean, long)}.
+ * The general purpose of using a BucketTimedMetric over a TimedMetric is that it can provide an
+ * insight into how the execution times are statistically distributed. For example, a method
+ * execution might have 2 paths with one hitting a cache and generally a lot faster. In using 2 or
+ * more buckets you might get a more representative view of the 2 distinct execution paths and
+ * monitor the slow non-cached execution path more accurately.
+ * <p>
+ * <em>Example:</em>
  * 
  * <pre>
  * <code>
  *  
- *  // Declare the metric (typically as a static field)
+ *  // Declare the metric with 4 bucket ranges of:
+ *  //    0 - 100 milliseconds
+ *  //  100 - 200 milliseconds
+ *  //  200 - 300 milliseconds
+ *  //  300+      milliseconds
  *  
- *  static final TimedMetric timedUserLogin = MetricManager.getTimedMetric(MyService.class, "performLogin");
+ *  static final BucketTimedMetric timedUserLogin = MetricManager.getBucketTimedMetric(MyService.class, "performLogin", 100, 200, 300);
  *  ...
  *  
  *  public void performLogin() {
@@ -34,7 +46,7 @@ package org.avaje.metric;
  * </code>
  * </pre>
  * <p>
- * Instead of programmatically adding TimedMetric code these can be added using enhancement. Classes
+ * Instead of programmatically adding BucketTimedMetric code these can be added using enhancement. Classes
  * that are annotated with <code>@Timed</code> on the class or method can have the appropriate code
  * added via enhancement. Also note that the enhancement in addition can be applied to classes
  * annotated with <code>@Singleton</code>, JAX-RS annotations like <code>@Path</code> and Spring
@@ -50,58 +62,29 @@ package org.avaje.metric;
  * <pre>
  * <code>
  *  ...
- *  {@literal @}Timed
+ *  {@literal @}Timed(buckets=100,200,300)
  *  public void performLogin() {
  *    ...
  *  }
  *  
  * </code>
  * </pre>
- * 
- * <p>
- * <em>Example:</em> Alternative using TimedMetric. This will have a slight extra cost compared with
- * {@link TimedMetric#addEventSince(boolean, long)} as TimedEvent is instantiated and must be later
- * garbage collected - using #{@link TimedMetric#addEventSince(boolean, long)} avoid that extra
- * object creation.
- * 
- * <pre>
- * <code>
- *  TimedMetric metric = MetricManager.getTimedMetric(MyService.class, "sayHello");
- *  ...
- *  
- *  TimedEvent timedEvent = metric.startEvent();
- *  try {
- *    ...
- *  
- *  } finally {
- *    // Add the event to the success statistics
- *    timedEvent.endWithSuccess();
- *  }
- *  
- * </code>
- * </pre>
  */
-public interface TimedMetric extends Metric {
+public interface BucketTimedMetric extends Metric {
 
   /**
-   * Return the success statistics.
+   * Return ranges times in milliseconds.
+   * <p>
+   * These values are more accurately described as the top value in milliseconds of end range except
+   * the last bucket which is unbounded. For example, with bucket ranges of 100,200,300 there are 4
+   * ranges - 0 to 100 millis, 100 to 200 millis, 200 to 300 millis and 300+.
    */
-  public ValueStatistics getCollectedSuccessStatistics();
+  public int[] getBucketRanges();
 
   /**
-   * Return the error statistics.
+   * Return the underlying TimedMetrics with one per bucket.
    */
-  public ValueStatistics getCollectedErrorStatistics();
-
-  /**
-   * Return the current success statistics choosing is the underlying statistics should be reset.
-   */
-  public ValueStatistics getSuccessStatistics(boolean reset);
-
-  /**
-   * Return the error success statistics choosing is the underlying statistics should be reset.
-   */
-  public ValueStatistics getErrorStatistics(boolean reset);
+  public TimedMetric[] getBuckets();
 
   /**
    * Start an event.
@@ -136,5 +119,4 @@ public interface TimedMetric extends Metric {
    * enhanced code and not general use.
    */
   public void operationEnd(int opCode, long startNanos);
-
 }
