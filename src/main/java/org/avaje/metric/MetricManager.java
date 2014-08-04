@@ -220,28 +220,28 @@ public class MetricManager {
    * Create and register a GaugeMetric using the gauge supplied.
    */
   public static GaugeDoubleMetric register(MetricName name, GaugeDouble gauge) {
-    return mgr.registerGauge(name, gauge);
+    return mgr.register(name, gauge);
   }
 
   /**
    * Create and register a GaugeMetric using the gauge supplied.
    */
   public static GaugeDoubleMetric register(String name, GaugeDouble gauge) {
-    return mgr.registerGauge(name(name), gauge);
+    return mgr.register(name(name), gauge);
   }
 
   /**
    * Create and register a GaugeCounterMetric using the gauge supplied.
    */
   public static GaugeLongMetric register(MetricName name, GaugeLong gauge) {
-    return mgr.registerGauge(name, gauge);
+    return mgr.register(name, gauge);
   }
 
   /**
    * Create and register a GaugeCounterMetric using the gauge supplied.
    */
   public static GaugeLongMetric register(String name, GaugeLong gauge) {
-    return mgr.registerGauge(name(name), gauge);
+    return mgr.register(name(name), gauge);
   }
 
   /**

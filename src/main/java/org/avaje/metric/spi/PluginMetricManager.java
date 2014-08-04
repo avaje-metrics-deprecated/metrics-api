@@ -104,11 +104,11 @@ public interface PluginMetricManager {
   /**
    * Create and register a GaugeMetric using the gauge supplied (double values).
    */
-  public GaugeDoubleMetric registerGauge(MetricName name, GaugeDouble gauge);
+  public GaugeDoubleMetric register(MetricName name, GaugeDouble gauge);
 
   /**
    * Create and register a GaugeCounterMetric using the gauge supplied (long values).
    */
-  public GaugeLongMetric registerGauge(MetricName name, GaugeLong gauge);
+  public GaugeLongMetric register(MetricName name, GaugeLong gauge);
 
 }
