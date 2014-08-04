@@ -3,7 +3,8 @@ package org.avaje.metric;
 /**
  * Metric based on a counter (long value).
  * <p>
- * Can be used to count units like bytes, rows, events but generally not time.
+ * Typically used to count discrete events like 'user login event'. ValueMetric would typically
+ * be used when the event has a value (bytes sent, bytes received, lines read etc).
  * <pre>
  * <code>
  *  // Declare the counter (typically as a static field)

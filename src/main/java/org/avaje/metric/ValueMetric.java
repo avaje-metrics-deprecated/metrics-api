@@ -3,8 +3,7 @@ package org.avaje.metric;
 /**
  * Metric that collects long values (e.g. total bytes sent).
  * <p>
- * Used when events have a value such as bytes sent, bytes received, rows read etc.
- * 
+ * Used when events have a value such as bytes sent, bytes received, lines read etc.
  * <pre>
  * <code>
  *  // Declare the metric (typically as a static field)
