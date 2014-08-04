@@ -11,6 +11,11 @@ public interface MetricVisitor {
   public void visit(TimedMetric metric);
 
   /**
+   * Visit a BucketTimedMetric.
+   */
+  public void visit(BucketTimedMetric metric);
+  
+  /**
    * Visit a ValueMetric.
    */
   public void visit(ValueMetric metric);
