@@ -3,12 +3,13 @@ package org.avaje.metric;
 /**
  * Groups {@link GaugeDoubleMetric} that are closely related.
  * <p>
- * Used to group gauges together for example JVM GC gauges, JVM Thread gauges etc.
+ * Used for example to group the JVM Memory gauges together such as Percentage Used, Max Memory,
+ * Initial Memory, Committed Memory.
  */
 public interface GaugeDoubleGroup extends Metric {
 
   /**
-   * Return the GaugeMetric's in this group.
+   * Return the metrics in this group.
    */
   public GaugeDoubleMetric[] getGaugeMetrics();
 

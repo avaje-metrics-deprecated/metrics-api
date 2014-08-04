@@ -46,11 +46,11 @@ package org.avaje.metric;
  * </code>
  * </pre>
  * <p>
- * Instead of programmatically adding BucketTimedMetric code these can be added using enhancement. Classes
- * that are annotated with <code>@Timed</code> on the class or method can have the appropriate code
- * added via enhancement. Also note that the enhancement in addition can be applied to classes
- * annotated with <code>@Singleton</code>, JAX-RS annotations like <code>@Path</code> and Spring
- * stereotype annotations like <code>@Component</code>, <code>@Service</code> etc.
+ * Instead of programmatically adding BucketTimedMetric code these can be added using enhancement.
+ * Classes that are annotated with <code>@Timed</code> on the class or method can have the
+ * appropriate code added via enhancement. Also note that the enhancement in addition can be applied
+ * to classes annotated with <code>@Singleton</code>, JAX-RS annotations like <code>@Path</code> and
+ * Spring stereotype annotations like <code>@Component</code>, <code>@Service</code> etc.
  * <p>
  * The enhancement will add instructions such that for method execution that throw exceptions the
  * timing is put into the error statistics. This can provide quick insight into where errors are
@@ -92,7 +92,11 @@ public interface BucketTimedMetric extends Metric {
    * At the completion of the event {@link TimedEvent#endWithSuccess()},
    * {@link TimedEvent#endWithError()} or {@link TimedEvent#end(boolean)} are called to record the
    * event duration and success or otherwise.
-   * </p>
+   * <p>
+   * This is an alternative to using {@link #addEventSince(boolean, long)} or
+   * {@link #addEventDuration(boolean, long)}. Note that this startEvent() method has slightly
+   * higher overhead as it instantiates a TimedEvent object which must be later GC'ed. In this sense
+   * generally addEventSince() is the preferred method to use.
    */
   public TimedEvent startEvent();
 
@@ -101,7 +105,9 @@ public interface BucketTimedMetric extends Metric {
    * <p>
    * Success and failure statistics are kept separately.
    * <p>
-   * This is an alternative to using {@link #startEvent()}.
+   * This is an alternative to using {@link #startEvent()}. Note that using startEvent() has
+   * slightly higher overhead as it instantiates a TimedEvent object which must be later GC'ed. In
+   * this sense generally addEventSince() is the preferred method to use.
    */
   public void addEventSince(boolean success, long startNanos);
 
@@ -110,13 +116,18 @@ public interface BucketTimedMetric extends Metric {
    * <p>
    * Success and failure statistics are kept separately.
    * <p>
-   * This is an alternative to using {@link #startEvent()}.
+   * This is an alternative to using {@link #addEventSince(boolean, long)} where you pass in the
+   * duration rather than the start nanoseconds.
    */
   public void addEventDuration(boolean success, long durationNanos);
 
   /**
    * Add an event duration with opCode indicating success or failure. This is intended for use by
    * enhanced code and not general use.
+   * <p>
+   * Although this looks redundant and a little ugly having this method means that for enhancement
+   * the added byte code is minimised. In the case where metric collection is turned off overhead is
+   * limited to a System.nanoTime() call and a noop method call.
    */
   public void operationEnd(int opCode, long startNanos);
 }

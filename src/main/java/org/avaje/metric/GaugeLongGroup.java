@@ -3,12 +3,13 @@ package org.avaje.metric;
 /**
  * Groups {@link GaugeLongMetric} gauges that are closely related.
  * <p>
- * Used to group gauges together for example JVM GC gauges, JVM Thread gauges etc.
+ * For example this used to group the JVM Thread gauges such as 'active threads' and 'total threads'
+ * together.
  */
 public interface GaugeLongGroup extends Metric {
 
   /**
-   * Return the group of metrics.
+   * Return the metrics in this group.
    */
   public GaugeLongMetric[] getGaugeMetrics();
 

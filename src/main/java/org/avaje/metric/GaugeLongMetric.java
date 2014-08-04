@@ -24,7 +24,7 @@ package org.avaje.metric;
  * </pre>
  * <p>
  * Note that <em>avaje-metric-core</em> registers some core JVM gauges that include
- * threads, memory and GC.
+ * threads, memory and garbage collection.
  */
 public interface GaugeLongMetric extends Metric {
 

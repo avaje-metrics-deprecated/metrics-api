@@ -187,10 +187,19 @@ public class MetricManager {
   }
 
   /**
-   * Return the TimedMetricGroup with default rateUnit of Minutes and using the default clock.
+   * Return the TimedMetricGroup with a based metric name.
    */
   public static TimedMetricGroup getTimedMetricGroup(MetricName baseName) {
     return mgr.getTimedMetricGroup(baseName);
+  }
+  
+  /**
+   * Return the TimedMetricGroup with a class providing the base metric name.
+   * <p>
+   * The package name is the 'group' and the simple class name the 'type'.
+   */
+  public static TimedMetricGroup getTimedMetricGroup(Class<?> cls) {
+    return getTimedMetricGroup(name(cls,""));
   }
 
   /**

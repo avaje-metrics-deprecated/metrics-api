@@ -2,6 +2,10 @@ package org.avaje.metric;
 
 /**
  * Cache of MetricNames that share a common base name.
+ * <p>
+ * Typically this is used when the full name of the metric is known at runtime and must be looked
+ * up. Using this cache avoids extra parsing of the metrics name and this MetricNameCache exists for
+ * that performance reason.
  */
 public interface MetricNameCache {
 

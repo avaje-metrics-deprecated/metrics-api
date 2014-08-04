@@ -28,4 +28,24 @@ public interface TimedMetricGroup {
    */
   public TimedMetric getTimedMetric(String name);
 
+  /**
+   * Add an event based on a startNanos (determined by {@link System#nanoTime()}).
+   * <p>
+   * Success and failure statistics are kept separately.
+   * <p>
+   * This is an alternative to using {@link #startEvent()}. Note that using startEvent() has
+   * slightly higher overhead as it instantiates a TimedEvent object which must be later GC'ed. In
+   * this sense generally addEventSince() is the preferred method to use.
+   */
+  public void addEventSince(String name, boolean success, long startNanos);
+
+  /**
+   * Add an event duration in nanoseconds noting if it was a success or failure result.
+   * <p>
+   * Success and failure statistics are kept separately.
+   * <p>
+   * This is an alternative to using {@link #addEventSince(boolean, long)} where you pass in the
+   * duration rather than the start nanoseconds.
+   */
+  public void addEventDuration(String name, boolean success, long durationNanos);
 }
