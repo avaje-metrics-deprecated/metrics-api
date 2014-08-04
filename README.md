@@ -41,13 +41,13 @@ Add the following 2 dependencies to your project.
 <dependency>
     <groupId>org.avaje.metric</groupId>
     <artifactId>avaje-metric-api</artifactId>
-    <version>3.2.0</version>
+    <version>3.3.0</version>
 </dependency>
 
 <dependency>
     <groupId>org.avaje.metric</groupId>
     <artifactId>avaje-metric-core</artifactId>
-    <version>3.2.0</version>
+    <version>3.3.1</version>
 </dependency>
 ```
 
@@ -65,7 +65,7 @@ want to be scanned for classes annotated with `@Timed`, `@Singleton`,  JAX-RS or
     <plugin>
       <groupId>org.avaje.metric</groupId>
       <artifactId>enhance-maven-plugin</artifactId>
-      <version>3.2.0</version>
+      <version>3.3.0</version>
       <executions>
          <execution>
           <id>main</id>
