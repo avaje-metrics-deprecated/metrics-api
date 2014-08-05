@@ -1,39 +1,50 @@
-# avaje-metric-api
-
-The Public API for avaje metric.
+# avaje-metrics
 
 This project started as a fork and refactor of https://github.com/codahale/metrics but is now significantly different.
 
 ## Design Goals
 
-- Low overhead: Statistics collectors are kept simple (count/total/average/maximum). Use `LongAdder` and `LongMaxUpdater` which minimises contention that can occur when using AtomicLong (e.g. http://minddotout.wordpress.com/2013/05/11/java-8-concurrency-longadder/). The overhead of using Histograms and MovingAverages is higher.
+- Collect metrics in Production
+- Report metrics frequently
+- Keep it simple to use
+- Can use enhancement to automatically instrument a JAX-RS or Spring application
+ 
+### Collect metrics in Production
 
-- Metrics are collected and reported frequently (every minute typically). 
+To collect metrics in production it is important to keep the overhead low and for the statistical counters to not introduce contention. Thankfully Doug Lea and friends have built some counters to do exactly what we need as part of JSR166e/JDK8. Avaje Metrics makes use of `LongAdder` and `LongMaxUpdater` (backported from JDK8). In some sense Avaje Metrics is an glorified wrapper for LongAdder and LongMaxUpdater.
 
-- You can add metrics you your JVM/Java Application without any code changes by using enhancement. Classes annotated with `@Singleton`, JAX-RS Annotations (like `@Path`, `@Comsumes`, `@Produces`) or Spring sterotypes (like `@Service`, `@Component`, `@Repository` etc) can have their public and protected methods automatically enhanced to collect timing metrics.
+### Report metrics frequently 
+
+When metrics are reported relatively frequently then the ability use simple mean and max values increases. If instead a mean and max value related to a long period of time like 1 hour say then frequently they become relatively meaningless. This is due to latency generally not being normally distributed. That is, if you don't collect and reset the metrics frequently then you really need to look to use percentiles and histograms and perhaps Avaje metrics is not a good choice.
+
+### Keep it simple 
+
+- Easy to add metrics to your application via enhancement or code
+- Keep the internals simple and rely on `LongAdder` and `LongMaxUpdater`
+- Easy collection and reporting
+
+### Automatically instrument a JAX-RS or Spring application
+
+Use the metrics agent to instrucment classes annotated with `@Singleton`, JAX-RS Annotations (like `@Path`, `@Comsumes`, `@Produces`) or Spring sterotypes (like `@Service`, `@Component`, `@Repository` etc). This provides an easy way to try it out on your existing application with virtually no effort.
 
 
 ## Business Drivers
 
-With good application performance metrics we can gain insight into the application. This can improve
-communication between Business, Development and DevOps. Without good metrics the following questions 
-can be hard to answer:
+For developers collecting metrics on your application can be good fun and very interesting. It is worth remembering that there are important questions and business drivers to motivate the collection and reporting of these metrics. 
 
-- How is the application performing in Production (relative to some baseline)?
-- Seasonal/peak loads: When do they occur and how well are they handled?
-- Performance Trends: How does performance compare to last week / last month / previous release / growing data ?
-- Early performance issue detection: Collect metrics during development, collect it all the time.
-- Capacity planning: How close to capacity is our running environment?
-- How does performance compared between environments (PROD, TEST, DEV) and servers?
- 
+- How is the application currently performing in Production (relative to some baseline)
+- When do Seasonal/peak loads occur and effect do they have
+- Can performance trends be detected due to software releases, configuration changes, growing data
+- During development can likely performance issues be detected
+- What is the maximum load the system can handle
+- Are there specific SLA requirements that need to be monitored
 
-## Enhancement or Code
 
-You can use avaje-metrics using code and currently enhancement only adds `TimedMetric`s and not `CounterMetric` or `ValueMetric` so you need to write code to add those. However frequently people are mostly interested in collecting timing metrics on the various parts of their application (certainly initially) and using enhancement means this can be done without any code changes (for JAX-RS, Spring applications).
 
-Using enhancement also makes it painless to collect both success and error statistics. When collecting error statistics using code you typically need to write catch blocks and that is not FUN. When using enhancement when any timed method throws an exception that timed event goes into separate error statistics. 
 
-## Maven dependencies
+# Getting Started
+
+## 1. Maven dependencies
 
 Add the following 2 dependencies to your project.
 
@@ -41,23 +52,28 @@ Add the following 2 dependencies to your project.
 <dependency>
     <groupId>org.avaje.metric</groupId>
     <artifactId>avaje-metric-api</artifactId>
-    <version>3.3.0</version>
+    <version>3.5.0</version>
 </dependency>
 
 <dependency>
     <groupId>org.avaje.metric</groupId>
     <artifactId>avaje-metric-core</artifactId>
-    <version>3.3.1</version>
+    <version>3.5.0</version>
 </dependency>
 ```
 
 
-## Getting started with enhancement
+## 2. Enhancement
 
-### Maven build plugin
+If you application already uses `@Singleton`, or Spring `@Service`, `@Component`, etc or JAX-RS `@Path` then you can go ahead and use the `enhance-maven-plugin` to search for and instrument those classes for you.
 
-With maven add a build plugin `org.avaje.metric`, `enhance-maven-plugin` and specify the packages that you 
-want to be scanned for classes annotated with `@Timed`, `@Singleton`,  JAX-RS or Spring annotations.
+If not then you can add `@Timed` to classes or methods that you want to be instrumented.
+
+Using enhancement is optional. You can add metrics collection via code (although it is more work especially noting that the enhancment detects when exceptions are thrown and puts the execution times into the separate 'error statistics').
+
+#### Maven build plugin
+
+To your maven pom add the plugin like below and specify the packages you wish it to scan for classes it should enhance.
 
 ```xml
   <build>
@@ -85,13 +101,13 @@ want to be scanned for classes annotated with `@Timed`, `@Singleton`,  JAX-RS or
   </build>
 ```
 
-### MetricReporter
+## 3. MetricReporter
 
 Add a MetricReporter instance to your application.
 
 ```java
 ...
-import org.avaje.metric.filereport.FileReporter;
+import org.avaje.metric.report.FileReporter;
 import org.avaje.metric.report.MetricReportManager;
 ...
 
@@ -105,11 +121,11 @@ import org.avaje.metric.report.MetricReportManager;
 
 ```
 
-### metric-name-mapping.txt
+## 4. metric-name-mapping.txt (Optional)
 
 You can optionally add a metric-name-mapping.txt file to your src/main/resources.  
 In this file you can put some key=value pairs that can be used to modify the metrics names -
-typically trimming the package name part and adding some prefixs like `web.api`, `web.sockets`, `dataaccess`, `integration`. 
+typically trimming the package name part and adding some prefixs like `web.api`, `web.sockets`, `data`, `integration`. 
 
 The primary reason for doing this is so that it is easier to rollup/group related metrics and
 much of the package name is redundant. 
@@ -120,23 +136,11 @@ org.example.myapp.repository.dao=dataaccess
 org.example.myapp=myapp
 ```
 
-### @Timed and @NotTimed annotations
+## 5. Add Metrics via Code
 
-You can additionally add a @Timed annotation on classes or methods to indicate that
-this class (all public methods) or a specific method should be enhanced to collect timing metrics.
+You can add metric via code.
 
-You can use @NotTimed to specify that a class or method should not have any timing metrics.
-
-
-
-## Using Code
-
-You can add TimedMetrics using code and currently for ValueMetric and GaugeMetric you need to
-write code to add these metrics.
-
-
-### TimedMetric
-
+#### TimedMetric
 
 ```java
 package org.example.service;
@@ -164,6 +168,15 @@ package org.example.service;
     }
 }
 ```
+
+# Appendix
+
+## @Timed and @NotTimed annotations
+
+You can additionally add a @Timed annotation on classes or methods to indicate that
+this class (all public methods) or a specific method should be enhanced to collect timing metrics.
+
+You can use @NotTimed to specify that a class or method should not have any timing metrics.
 
 
 #### TimedMetric via annotation 
@@ -259,4 +272,8 @@ Published under Apache Software License 2.0, see LICENSE
 - https://code.google.com/p/javasimon/
 - https://github.com/perf4j/perf4j
  
+## Related Links
+
+- http://gee.cs.oswego.edu/dl/jsr166/dist/jsr166edocs/jsr166e/package-summary.html
+- http://minddotout.wordpress.com/2013/05/11/java-8-concurrency-longadder/
 
