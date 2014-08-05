@@ -1,27 +1,45 @@
 # avaje-metrics
 
-This project started as a fork and refactor of https://github.com/codahale/metrics but is now significantly different.
+## Overview
+
+This project started as a fork of https://github.com/codahale/metrics but became significantly different. Frequent reporting of metrics meant that Avaje Metrics has generally moved away from Moving Averages and Histograms/percentiles to relatively simpler and cheaper counters (Count, Total, Average, Max). When frequent collection of Max and Average latency is not sufficent you can look to use `BucketTimedMetric` to get a clearer picture of how latency is distributed (because generally it is not 'normally distributed').
+
+- Statistics can lie
+- Latency is very frequently not normally distributed
+- If you use Standard Deviation you probably should be careful
+- If you don't collect frequently then Average and Max can easily become relatively meaningless (If you collect every hour then trying to interpret the meaning of a Average or Max value might well be pointless).
+
+
+`LongAdder` and `LongMaxUpdater` are important implementation details that make statistical counters viable in production with low overhead and avoiding contention. There are alternatives but for me these are the shining light and provided to use by some very clever folks - thanks!!
+
+
 
 ## Design Goals
 
-- Collect metrics in Production
-- Report metrics frequently
+- Collect metrics in Production with low overhead
+- Report metrics frequently to enable reasonable interpretation (Statistics can lie)
 - Keep it simple to use
-- Can use enhancement to automatically instrument a JAX-RS or Spring application
+- Option to use an agent/enhancement to automatically instrument an existing JAX-RS or Spring application 
  
+
 ### Collect metrics in Production
 
-To collect metrics in production it is important to keep the overhead low and for the statistical counters to not introduce contention. Thankfully Doug Lea and friends have built some counters to do exactly what we need as part of JSR166e/JDK8. Avaje Metrics makes use of `LongAdder` and `LongMaxUpdater` (backported from JDK8). In some sense Avaje Metrics is an glorified wrapper for LongAdder and LongMaxUpdater.
+To collect metrics in production it is important to keep the overhead low and for the statistical counters to not introduce contention. Thankfully Doug Lea and friends have built some counters to do exactly what we need as part of JSR166e/JDK8. Avaje Metrics makes use of `LongAdder` and `LongMaxUpdater` (backported from JDK8). Some might say that Avaje Metrics is an glorified wrapper for LongAdder and LongMaxUpdater.
+
 
 ### Report metrics frequently 
 
-When metrics are reported relatively frequently then the ability use simple mean and max values increases. If instead a mean and max value related to a long period of time like 1 hour say then frequently they become relatively meaningless. This is due to latency generally not being normally distributed. That is, if you don't collect and reset the metrics frequently then you really need to look to use percentiles and histograms and perhaps Avaje metrics is not a good choice.
+When metrics are reported relatively frequently then the ability to reason and interpret simple count, total, mean and max values increases. Conversely, if instead a mean and max value related to a long period of time like 1 hour then frequently they become relatively meaningless to interpret. This is due to latency generally not being statistically 'normally' distributed. The argument for using percentiles and histograms is strong if you don't collect metrics frequently enough.
+
+Note that `BucketTimedMetric` provides a nice alternative to Histograms/Percentiles and I expect users will frequently look to using `BucketTimedMetric` on things like web/rest endpoints. 
+
 
 ### Keep it simple 
 
 - Easy to add metrics to your application via enhancement or code
 - Keep the internals simple and rely on `LongAdder` and `LongMaxUpdater`
 - Easy collection and reporting
+
 
 ### Automatically instrument a JAX-RS or Spring application
 
@@ -73,7 +91,7 @@ Using enhancement is optional. You can add metrics collection via code (although
 
 #### Maven build plugin
 
-To your maven pom add the plugin like below and specify the packages you wish it to scan for classes it should enhance.
+To your maven pom add the plugin like below and specify the packages you wish it to scan for classes it should enhance. Take note of the packages element in the maven plugin xml below.
 
 ```xml
   <build>
@@ -81,7 +99,7 @@ To your maven pom add the plugin like below and specify the packages you wish it
     <plugin>
       <groupId>org.avaje.metric</groupId>
       <artifactId>enhance-maven-plugin</artifactId>
-      <version>3.3.0</version>
+      <version>3.5.0</version>
       <executions>
          <execution>
           <id>main</id>
