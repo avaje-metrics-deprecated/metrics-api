@@ -6,8 +6,8 @@ This project started as a fork of https://github.com/codahale/metrics but became
 
 - Statistics can lie
 - Latency is very frequently not normally distributed
-- If you use Standard Deviation you probably should be careful
-- If you don't collect frequently then Average and Max can easily become relatively meaningless (If you collect every hour then trying to interpret the meaning of a Average or Max value might well be pointless).
+- If you use standard deviation you probably should be careful
+- If you don't collect frequently then interpreting an average and max value can easily become relatively meaningless.
 
 
 `LongAdder` and `LongMaxUpdater` are important implementation details that make statistical counters viable in production with low overhead and avoiding contention. There are alternatives but for me these are the shining light and provided to use by some very clever folks - thanks!!
@@ -16,7 +16,7 @@ This project started as a fork of https://github.com/codahale/metrics but became
 
 ## Design Goals
 
-- Collect metrics in Production with low overhead
+- Collect metrics in production with low overhead
 - Report metrics frequently to enable reasonable interpretation (Statistics can lie)
 - Keep it simple to use
 - Option to use an agent/enhancement to automatically instrument an existing JAX-RS or Spring application 
