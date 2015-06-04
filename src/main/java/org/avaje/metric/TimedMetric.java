@@ -9,8 +9,7 @@ package org.avaje.metric;
  * <p>
  * <em>Example:</em> Using {@link TimedMetric#addEventSince(boolean, long)}.
  * 
- * <pre>
- * <code>
+ * <pre>{@code
  *  
  *  // Declare the metric (typically as a static field)
  *  
@@ -31,8 +30,7 @@ package org.avaje.metric;
  *    }
  *  }
  *  
- * </code>
- * </pre>
+ * }</pre>
  * <p>
  * Instead of programmatically adding TimedMetric code these can be added using enhancement. Classes
  * that are annotated with <code>@Timed</code> on the class or method can have the appropriate code
@@ -47,16 +45,15 @@ package org.avaje.metric;
  * <p>
  * <em>Example:</em> <code>@Timed</code> annotation.
  * 
- * <pre>
- * <code>
+ * <pre>{@code
+ *
  *  ...
- *  {@literal @}Timed
+ *  @Timed
  *  public void performLogin() {
  *    ...
  *  }
  *  
- * </code>
- * </pre>
+ * }</pre>
  * 
  * <p>
  * <em>Example:</em> Alternative using TimedMetric. This will have a slight extra cost compared with
@@ -64,8 +61,8 @@ package org.avaje.metric;
  * garbage collected - using #{@link TimedMetric#addEventSince(boolean, long)} avoid that extra
  * object creation.
  * 
- * <pre>
- * <code>
+ * <pre>{@code
+ *
  *  TimedMetric metric = MetricManager.getTimedMetric(MyService.class, "sayHello");
  *  ...
  *  
@@ -78,8 +75,7 @@ package org.avaje.metric;
  *    timedEvent.endWithSuccess();
  *  }
  *  
- * </code>
- * </pre>
+ * }</pre>
  */
 public interface TimedMetric extends AbstractTimedMetric {
 
