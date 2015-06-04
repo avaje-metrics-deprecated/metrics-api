@@ -2,6 +2,7 @@ package org.avaje.metric;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.ServiceLoader;
 
 import org.avaje.metric.spi.PluginMetricManager;
@@ -47,6 +48,13 @@ public class MetricManager {
     } catch (Exception e) {
       throw new RuntimeException("Provider " + DEFAULT_PROVIDER + " could not be instantiated: " + e, e);
     }
+  }
+
+  /**
+   * When a request completes it reports all its timing entries to the manager.
+   */
+  public static void reportTiming(List<RequestTimingEntry> timingEntries) {
+    mgr.reportTiming(timingEntries);
   }
 
   /**

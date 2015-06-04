@@ -104,15 +104,6 @@ public interface TimedMetric extends Metric {
   ValueStatistics getErrorStatistics(boolean reset);
 
   /**
-   * Return the current nanos and additionally indicate that the metric event has started .
-   * <p>
-   * This method can be used rather than <code>System.nanoTime()</code> to support collecting
-   * timing in a nested context.
-   * </p>
-   */
-  long start();
-
-  /**
    * Start an event.
    * <p>
    * At the completion of the event one of {@link TimedEvent#endWithSuccess()},
@@ -155,6 +146,22 @@ public interface TimedMetric extends Metric {
    * the added byte code is minimised. In the case where metric collection is turned off overhead is
    * limited to a System.nanoTime() call and a noop method call.
    */
-  void operationEnd(int opCode, long startNanos);
+  void operationEnd(int opCode, long startNanos, boolean requestTiming);
+
+  /**
+   * Return true if request level detailed collection is on for this TimedMetric.
+   */
+  boolean isRequestTiming();
+
+  /**
+   * Turn on or off request level detailed collection.
+   * <p>
+   * This is expected to only be explicitly called on 'top level' metrics such as web endpoints.
+   * Once a request timing context has been created by the top level metric then 'nested metrics'
+   * (typically service and data access layers) can append to that existing context.  In this way
+   * detailed per request level timing entries can be collected for only selected endpoints.
+   * </p>
+   */
+  void setRequestTiming(boolean requestTiming);
 
 }

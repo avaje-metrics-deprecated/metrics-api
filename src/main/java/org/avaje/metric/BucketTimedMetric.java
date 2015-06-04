@@ -59,16 +59,14 @@ package org.avaje.metric;
  * <p>
  * <em>Example:</em> <code>@Timed</code> annotation.
  * 
- * <pre>
- * <code>
+ * <pre>{@code
  *  ...
- *  {@literal @}Timed(buckets=100,200,300)
+ *  @Timed(buckets=100,200,300)
  *  public void performLogin() {
  *    ...
  *  }
  *  
- * </code>
- * </pre>
+ * }</pre>
  */
 public interface BucketTimedMetric extends Metric {
 
@@ -129,5 +127,15 @@ public interface BucketTimedMetric extends Metric {
    * the added byte code is minimised. In the case where metric collection is turned off overhead is
    * limited to a System.nanoTime() call and a noop method call.
    */
-  void operationEnd(int opCode, long startNanos);
+  void operationEnd(int opCode, long startNanos, boolean requestTiming);
+
+  /**
+   * Return true if request level detailed collection is on for this TimedMetric.
+   */
+  boolean isRequestTiming();
+
+  /**
+   * Turn on or off request level detailed collection.
+   */
+  void setRequestTiming(boolean requestTiming);
 }
