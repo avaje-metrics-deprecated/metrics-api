@@ -13,6 +13,6 @@ public interface GaugeLong {
   /**
    * Return the current value.
    */
-  public long getValue();
+  long getValue();
 
 }

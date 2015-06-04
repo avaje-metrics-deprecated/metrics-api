@@ -31,6 +31,6 @@ public interface GaugeDoubleMetric extends Metric {
   /**
    * Return the value.
    */
-  public double getValue();
+  double getValue();
 
 }

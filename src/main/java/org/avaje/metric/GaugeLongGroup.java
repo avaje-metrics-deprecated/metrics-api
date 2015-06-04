@@ -11,6 +11,6 @@ public interface GaugeLongGroup extends Metric {
   /**
    * Return the metrics in this group.
    */
-  public GaugeLongMetric[] getGaugeMetrics();
+  GaugeLongMetric[] getGaugeMetrics();
 
 }

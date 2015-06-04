@@ -31,6 +31,6 @@ public interface GaugeLongMetric extends Metric {
   /**
    * Return the value.
    */
-  public long getValue();
+  long getValue();
 
 }

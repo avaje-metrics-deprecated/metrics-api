@@ -59,18 +59,16 @@ package org.avaje.metric;
  * <p>
  * <em>Example:</em> <code>@Timed</code> annotation.
  * 
- * <pre>
- * <code>
+ * <pre>{@code
  *  ...
- *  {@literal @}Timed(buckets=100,200,300)
+ *  @Timed(buckets=100,200,300)
  *  public void performLogin() {
  *    ...
  *  }
  *  
- * </code>
- * </pre>
+ * }</pre>
  */
-public interface BucketTimedMetric extends Metric {
+public interface BucketTimedMetric extends AbstractTimedMetric {
 
   /**
    * Return ranges times in milliseconds.
@@ -79,55 +77,11 @@ public interface BucketTimedMetric extends Metric {
    * the last bucket which is unbounded. For example, with bucket ranges of 100,200,300 there are 4
    * ranges - 0 to 100 millis, 100 to 200 millis, 200 to 300 millis and 300+.
    */
-  public int[] getBucketRanges();
+  int[] getBucketRanges();
 
   /**
    * Return the underlying TimedMetrics with one per bucket.
    */
-  public TimedMetric[] getBuckets();
+  TimedMetric[] getBuckets();
 
-  /**
-   * Start an event.
-   * <p>
-   * At the completion of the event {@link TimedEvent#endWithSuccess()},
-   * {@link TimedEvent#endWithError()} or {@link TimedEvent#end(boolean)} are called to record the
-   * event duration and success or otherwise.
-   * <p>
-   * This is an alternative to using {@link #addEventSince(boolean, long)} or
-   * {@link #addEventDuration(boolean, long)}. Note that this startEvent() method has slightly
-   * higher overhead as it instantiates a TimedEvent object which must be later GC'ed. In this sense
-   * generally addEventSince() is the preferred method to use.
-   */
-  public TimedEvent startEvent();
-
-  /**
-   * Add an event based on a startNanos (determined by {@link System#nanoTime()}).
-   * <p>
-   * Success and failure statistics are kept separately.
-   * <p>
-   * This is an alternative to using {@link #startEvent()}. Note that using startEvent() has
-   * slightly higher overhead as it instantiates a TimedEvent object which must be later GC'ed. In
-   * this sense generally addEventSince() is the preferred method to use.
-   */
-  public void addEventSince(boolean success, long startNanos);
-
-  /**
-   * Add an event duration in nanoseconds noting if it was a success or failure result.
-   * <p>
-   * Success and failure statistics are kept separately.
-   * <p>
-   * This is an alternative to using {@link #addEventSince(boolean, long)} where you pass in the
-   * duration rather than the start nanoseconds.
-   */
-  public void addEventDuration(boolean success, long durationNanos);
-
-  /**
-   * Add an event duration with opCode indicating success or failure. This is intended for use by
-   * enhanced code and not general use.
-   * <p>
-   * Although this looks redundant and a little ugly having this method means that for enhancement
-   * the added byte code is minimised. In the case where metric collection is turned off overhead is
-   * limited to a System.nanoTime() call and a noop method call.
-   */
-  public void operationEnd(int opCode, long startNanos);
 }

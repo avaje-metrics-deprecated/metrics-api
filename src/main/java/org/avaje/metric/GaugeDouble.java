@@ -13,6 +13,6 @@ public interface GaugeDouble {
   /**
    * Return the current value.
    */
-  public double getValue();
+  double getValue();
 
 }
