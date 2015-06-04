@@ -104,6 +104,15 @@ public interface TimedMetric extends Metric {
   ValueStatistics getErrorStatistics(boolean reset);
 
   /**
+   * Return the current nanos and additionally indicate that the metric event has started .
+   * <p>
+   * This method can be used rather than <code>System.nanoTime()</code> to support collecting
+   * timing in a nested context.
+   * </p>
+   */
+  long start();
+
+  /**
    * Start an event.
    * <p>
    * At the completion of the event one of {@link TimedEvent#endWithSuccess()},
