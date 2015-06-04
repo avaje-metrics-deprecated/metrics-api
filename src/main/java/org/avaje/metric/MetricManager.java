@@ -51,10 +51,17 @@ public class MetricManager {
   }
 
   /**
-   * When a request completes it reports all its timing entries to the manager.
+   * When a request completes it is reported to the manager.
    */
-  public static void reportTiming(List<RequestTimingEntry> timingEntries) {
-    mgr.reportTiming(timingEntries);
+  public static void reportTiming(RequestTiming requestTiming) {
+    mgr.reportTiming(requestTiming);
+  }
+
+  /**
+   * Return the request timings that have been collected since the last collection.
+   */
+  public static List<RequestTiming> collectRequestTimings() {
+    return mgr.collectRequestTimings();
   }
 
   /**

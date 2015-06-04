@@ -8,7 +8,7 @@ public interface RequestTimingEntry {
   /**
    * Return the metric this entry is from.
    */
-  TimedMetric getMetric();
+  AbstractTimedMetric getMetric();
 
   /**
    * Returns the depth of the entry.
@@ -24,4 +24,9 @@ public interface RequestTimingEntry {
    * Returns the end nanos value for the entry.
    */
   long getEndNanos();
+
+  /**
+   * Return the execution time in nanos for the entry.
+   */
+  long getExecutionNanos();
 }

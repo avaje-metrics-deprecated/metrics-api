@@ -102,7 +102,13 @@ public interface PluginMetricManager {
   GaugeLongMetric register(MetricName name, GaugeLong gauge);
 
   /**
-   * When a request completes it reports all its timing entries to the manager.
+   * When a request completes it is reported to the manager.
    */
-  void reportTiming(List<RequestTimingEntry> timingEntries);
+  void reportTiming(RequestTiming requestTiming);
+
+  /**
+   * Return the request timings that have been collected since the last collection.
+   */
+  List<RequestTiming> collectRequestTimings();
+
 }
