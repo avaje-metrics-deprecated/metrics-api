@@ -9,23 +9,23 @@ public interface MetricName extends Comparable<MetricName> {
    * Returns the group to which the metric belongs. For class-based metrics, this will be the
    * package name.
    */
-  public String getGroup();
+  String getGroup();
 
   /**
    * Returns the type to which the Metric belongs. For class-based metrics, this will be the simple
    * class name.
    */
-  public String getType();
+  String getType();
 
   /**
    * Returns the name of the metric.
    */
-  public String getName();
+  String getName();
 
   /**
    * Return a simple java like name.
    */
-  public String getSimpleName();
+  String getSimpleName();
 
   /**
    * Create and return another MetricName based on this instance with an additional suffix added to
@@ -34,5 +34,5 @@ public interface MetricName extends Comparable<MetricName> {
    * @param nameSuffix
    *          The addition text added to this metrics name.
    */
-  public MetricName withSuffix(String nameSuffix);
+  MetricName withSuffix(String nameSuffix);
 }

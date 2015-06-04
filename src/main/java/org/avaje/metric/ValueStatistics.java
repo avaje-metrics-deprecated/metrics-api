@@ -11,26 +11,26 @@ public interface ValueStatistics {
    * This should equate to the last time the statistics were collected for reporting purposes so if
    * that is ever minute then this would return the epoch time of 1 minute ago.
    */
-  public long getStartTime();
+  long getStartTime();
 
   /**
    * Return the count of values collected (since the last reset/collection).
    */
-  public long getCount();
+  long getCount();
 
   /**
    * Return the total of all the values (since the last reset/collection).
    */
-  public long getTotal();
+  long getTotal();
 
   /**
    * Return the Max value collected (since the last reset/collection).
    */
-  public long getMax();
+  long getMax();
 
   /**
    * Return the mean value rounded up for the values collected since the last reset/collection.
    */
-  public long getMean();
+  long getMean();
 
 }

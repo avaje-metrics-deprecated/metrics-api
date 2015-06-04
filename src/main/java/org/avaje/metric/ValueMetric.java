@@ -26,11 +26,11 @@ public interface ValueMetric extends Metric {
   /**
    * Return the statistics collected.
    */
-  public ValueStatistics getCollectedStatistics();
+  ValueStatistics getCollectedStatistics();
 
   /**
    * Add a value (bytes, time, rows etc).
    */
-  public void addEvent(long value);
+  void addEvent(long value);
 
 }

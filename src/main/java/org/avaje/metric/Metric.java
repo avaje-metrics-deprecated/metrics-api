@@ -16,7 +16,7 @@ public interface Metric {
   /**
    * Return the name of the metric.
    */
-  public MetricName getName();
+  MetricName getName();
 
   /**
    * Typically this is only called by the MetricManager and tells the metric to collect its underlying statistics for
@@ -26,7 +26,7 @@ public interface Metric {
    *         since the last collection and typically a reporter omits this metric from the output
    *         that is sent.
    */
-  public boolean collectStatistics();
+  boolean collectStatistics();
 
   /**
    * Visit the metric typically reading and reporting the underlying statistics.
@@ -34,7 +34,7 @@ public interface Metric {
    * Typically this is use by reporters to traverse all the collected metrics for sending to a file or repository.
    * </p>
    */
-  public void visit(MetricVisitor visitor) throws IOException;
+  void visit(MetricVisitor visitor) throws IOException;
 
   /**
    * Clear the statistics resetting any internal counters etc.
@@ -43,6 +43,6 @@ public interface Metric {
    * it periodically collects and reports all the metrics and you are not expected to use this method.
    * </p>
    */
-  public void clearStatistics();
+  void clearStatistics();
 
 }

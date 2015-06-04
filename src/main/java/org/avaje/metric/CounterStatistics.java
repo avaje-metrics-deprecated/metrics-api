@@ -10,10 +10,10 @@ public interface CounterStatistics {
   /**
    * Return the time the counter started statistics collection.
    */
-  public long getStartTime();
+  long getStartTime();
 
   /**
    * Return the count of values collected.
    */
-  public long getCount();
+  long getCount();
 }

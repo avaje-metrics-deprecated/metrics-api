@@ -11,6 +11,6 @@ public interface GaugeDoubleGroup extends Metric {
   /**
    * Return the metrics in this group.
    */
-  public GaugeDoubleMetric[] getGaugeMetrics();
+  GaugeDoubleMetric[] getGaugeMetrics();
 
 }

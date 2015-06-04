@@ -79,12 +79,12 @@ public interface BucketTimedMetric extends Metric {
    * the last bucket which is unbounded. For example, with bucket ranges of 100,200,300 there are 4
    * ranges - 0 to 100 millis, 100 to 200 millis, 200 to 300 millis and 300+.
    */
-  public int[] getBucketRanges();
+  int[] getBucketRanges();
 
   /**
    * Return the underlying TimedMetrics with one per bucket.
    */
-  public TimedMetric[] getBuckets();
+  TimedMetric[] getBuckets();
 
   /**
    * Start an event.
@@ -98,7 +98,7 @@ public interface BucketTimedMetric extends Metric {
    * higher overhead as it instantiates a TimedEvent object which must be later GC'ed. In this sense
    * generally addEventSince() is the preferred method to use.
    */
-  public TimedEvent startEvent();
+  TimedEvent startEvent();
 
   /**
    * Add an event based on a startNanos (determined by {@link System#nanoTime()}).
@@ -109,7 +109,7 @@ public interface BucketTimedMetric extends Metric {
    * slightly higher overhead as it instantiates a TimedEvent object which must be later GC'ed. In
    * this sense generally addEventSince() is the preferred method to use.
    */
-  public void addEventSince(boolean success, long startNanos);
+  void addEventSince(boolean success, long startNanos);
 
   /**
    * Add an event duration in nanoseconds noting if it was a success or failure result.
@@ -119,7 +119,7 @@ public interface BucketTimedMetric extends Metric {
    * This is an alternative to using {@link #addEventSince(boolean, long)} where you pass in the
    * duration rather than the start nanoseconds.
    */
-  public void addEventDuration(boolean success, long durationNanos);
+  void addEventDuration(boolean success, long durationNanos);
 
   /**
    * Add an event duration with opCode indicating success or failure. This is intended for use by
@@ -129,5 +129,5 @@ public interface BucketTimedMetric extends Metric {
    * the added byte code is minimised. In the case where metric collection is turned off overhead is
    * limited to a System.nanoTime() call and a noop method call.
    */
-  public void operationEnd(int opCode, long startNanos);
+  void operationEnd(int opCode, long startNanos);
 }

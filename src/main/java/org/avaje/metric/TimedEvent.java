@@ -32,17 +32,17 @@ public interface TimedEvent {
   /**
    * End specifying whether the event was successful or in error.
    */
-  public void end(boolean withSuccess);
+  void end(boolean withSuccess);
 
   /**
    * This timed event ended with successful execution (e.g. Successful SOAP Operation or SQL
    * execution).
    */
-  public void endWithSuccess();
+  void endWithSuccess();
 
   /**
    * This timed event ended with an error or fault execution (e.g. SOAP Fault or SQL exception).
    */
-  public void endWithError();
+  void endWithError();
 
 }

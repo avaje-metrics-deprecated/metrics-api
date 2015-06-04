@@ -15,6 +15,6 @@ public interface MetricNameCache {
    * Typically the name passed in could be a soap operation name or method name.
    * </p>
    */
-  public MetricName get(String name);
+  MetricName get(String name);
 
 }
