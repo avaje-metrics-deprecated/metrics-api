@@ -287,8 +287,49 @@ public class MetricManager {
    * greater than 0.
    * </p>
    */
-  public static List<AbstractTimedMetric> getRequestTimingMetrics() {
+  public static List<TimingMetricInfo> getRequestTimingMetrics() {
     return mgr.getRequestTimingMetrics();
+  }
+
+  /**
+   * Return the list of all timing metrics.
+   */
+  public static List<TimingMetricInfo> getAllTimingMetrics() {
+    return mgr.getAllTimingMetrics();
+  }
+
+  /**
+   * Set request timing on for a metric matching the name.
+   *
+   * @param collectionCount the number of requests to collect request timings for
+   * @return true if request timing was set, false if the metric was not found.
+   */
+  public static boolean setRequestTimingCollection(String metricName, int collectionCount) {
+    return mgr.setRequestTimingCollection(metricName, collectionCount);
+  }
+
+  /**
+   * Set request timing on for a metric matching the class and name.
+   *
+   * @param collectionCount the number of requests to collect request timings for
+   * @return true if request timing was set, false if the metric was not found.
+   */
+  public static boolean setRequestTimingCollection(Class<?> cls, String name, int collectionCount) {
+    return mgr.setRequestTimingCollection(cls, name, collectionCount);
+  }
+
+  /**
+   * Set request timing on all the timed metrics whose name starts with a given prefix.
+   * <p>
+   * If for example all the web endpoints have a prefix of "web." then these can all be
+   * set to collect say 10 requests.
+   * </p>
+   *
+   * @param collectionCount the number of requests to collect request timings for
+   * @return the number of metric that request collection was set on
+   */
+  public int setRequestTimingCollectionStartsWith(String nameStartsWith, int collectionCount) {
+    return mgr.setRequestTimingCollectionStartsWith(nameStartsWith, collectionCount);
   }
 
 }

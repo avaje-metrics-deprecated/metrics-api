@@ -118,5 +118,30 @@ public interface PluginMetricManager {
    * greater than 0.
    * </p>
    */
-  List<AbstractTimedMetric> getRequestTimingMetrics();
+  List<TimingMetricInfo> getRequestTimingMetrics();
+
+  /**
+   * Return the list of all timing metrics.
+   */
+  List<TimingMetricInfo> getAllTimingMetrics();
+
+  /**
+   * Set request timing on for a metric matching the class and name.
+   */
+  boolean setRequestTimingCollection(String metricName, int collectionCount);
+
+  /**
+   * Set request timing on for a metric matching the class and name.
+   */
+  boolean setRequestTimingCollection(Class<?> cls, String name, int collectionCount);
+
+  /**
+   * Set request timing on all the timed metrics whose name starts with a given prefix.
+   * <p>
+   * If for example all the web endpoints have a prefix of "web." then these can all be
+   * set to collect say 10 requests.
+   * </p>
+   */
+  int setRequestTimingCollectionStartsWith(String nameStartsWith, int collectionCount);
+
 }
