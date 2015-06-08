@@ -60,7 +60,8 @@ public interface AbstractTimedMetric extends Metric {
   boolean isActiveThreadContext();
 
   /**
-   * Turn on or off pre request detailed timing collection.
+   * Specify to collect per request detailed timing collection. The collectionCount is the number
+   * of requests to collect detailed timing for and then automatically turn off.
    * <p>
    * This is expected to only be explicitly called on 'top level' metrics such as web endpoints.
    * Once a request timing context has been created by the top level metric then 'nested metrics'
@@ -68,14 +69,23 @@ public interface AbstractTimedMetric extends Metric {
    * detailed per request level timing entries can be collected for only selected endpoints.
    * </p>
    */
-  void setRequestTiming(boolean requestTiming);
+  void setRequestTimingCollection(int collectionCount);
 
   /**
-   * Return true if this metric has explicitly got pre request detailed timing collection turned on.
+   * Return the number of remaining requests to collect detailed timing on.
    * <p>
-   * This is expected to be set to true only on selected 'top level' metrics such as web endpoints.
+   * This value starts out as the value set by #setRequestTimingCollection and then decrements
+   * after a request timing is reported until it reaches 0 at which point request timing automatically
+   * turns off for this metric.
    * </p>
    */
-  boolean isRequestTiming();
+  int getRequestTimingCollection();
 
+  /**
+   * Decrement the request timing collection count.
+   *
+   * This is typically called internally when a request timing is reported and generally not
+   * expected to be called by application code.
+   */
+  void decrementCollectionCount();
 }
