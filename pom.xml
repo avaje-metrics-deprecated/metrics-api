@@ -8,7 +8,7 @@
 
   <groupId>org.avaje.metric</groupId>
   <artifactId>avaje-metric-api</artifactId>
-  <version>4.0.1-SNAPSHOT</version>
+  <version>4.1.0-SNAPSHOT</version>
   <name>avaje-metric-api</name>
   <packaging>jar</packaging>
   <url>http://www.avaje.org</url>
@@ -62,8 +62,9 @@
             <version>1.0.0</version>
           </docletArtifact>
           <additionalparam>
-            -Xdoclint:none
+           <!-- -Xdoclint:none 
             -include-basedir ${project.basedir}
+           -->
           </additionalparam>
           <linksource>true</linksource>
         </configuration>

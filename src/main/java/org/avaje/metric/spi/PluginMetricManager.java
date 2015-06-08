@@ -111,4 +111,12 @@ public interface PluginMetricManager {
    */
   List<RequestTiming> collectRequestTimings();
 
+  /**
+   * Return all the timing metrics that are currently collecting per request timings.
+   * <p>
+   * These are TimingMetric or BucketTimingMetrics that have {@link TimedMetric#getRequestTimingCollection()}
+   * greater than 0.
+   * </p>
+   */
+  List<AbstractTimedMetric> getRequestTimingMetrics();
 }

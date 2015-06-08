@@ -280,4 +280,15 @@ public class MetricManager {
     return mgr.getJvmMetrics();
   }
 
+  /**
+   * Return all the timing metrics that are currently collecting per request timings.
+   * <p>
+   * These are TimingMetric or BucketTimingMetrics that have {@link TimedMetric#getRequestTimingCollection()}
+   * greater than 0.
+   * </p>
+   */
+  public static List<AbstractTimedMetric> getRequestTimingMetrics() {
+    return mgr.getRequestTimingMetrics();
+  }
+
 }
