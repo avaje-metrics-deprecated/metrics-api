@@ -3,7 +3,7 @@ package org.avaje.metric;
 /**
  * A timing point entry when collecting nested context timing.
  */
-public interface RequestTimingEntry {
+public interface RequestTimingEntry extends Comparable<RequestTimingEntry> {
 
   /**
    * Return the metric this entry is from.
