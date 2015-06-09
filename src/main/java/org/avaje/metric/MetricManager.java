@@ -75,7 +75,7 @@ public class MetricManager {
 
   /**
    * Create a Metric name based on group, type and name.
-   * 
+   *
    * @param group
    *          The group which often maps to a package name.
    * @param type
@@ -130,21 +130,21 @@ public class MetricManager {
   public static BucketTimedMetric getTimedMetric(Class<?> cls, String name, int... bucketRanges) {
     return getTimedMetric(name(cls, name), bucketRanges);
   }
-  
+
   /**
    * Return a BucketTimedMetric given the name and bucket ranges.
    */
   public static BucketTimedMetric getTimedMetric(String name, int... bucketRanges) {
     return getTimedMetric(name(name), bucketRanges);
   }
-  
+
   /**
    * Return a TimedMetric given the name.
    */
   public static TimedMetric getTimedMetric(MetricName name) {
     return mgr.getTimedMetric(name);
   }
-  
+
   /**
    * Return a TimedMetric using the Class, name to derive the MetricName.
    */
@@ -172,7 +172,7 @@ public class MetricManager {
   public static CounterMetric getCounterMetric(String name) {
     return getCounterMetric(name(name));
   }
-  
+
   /**
    * Return a CounterMetric using the Class and name to derive the MetricName.
    */
@@ -186,7 +186,7 @@ public class MetricManager {
   public static ValueMetric getValueMetric(MetricName name) {
     return mgr.getValueMetric(name);
   }
-  
+
   /**
    * Return a ValueMetric using the Class and name to derive the MetricName.
    */
@@ -207,7 +207,7 @@ public class MetricManager {
   public static TimedMetricGroup getTimedMetricGroup(MetricName baseName) {
     return mgr.getTimedMetricGroup(baseName);
   }
-  
+
   /**
    * Return the TimedMetricGroup with a class providing the base metric name.
    * <p>
@@ -219,12 +219,12 @@ public class MetricManager {
 
   /**
    * Return a TimedMetricGroup with a common group and type name.
-   * 
+   *
    * @param group
    *          the common group name
    * @param type
    *          the common type name
-   *          
+   *
    * @return the TimedMetricGroup used to create TimedMetric's that have a common base name.
    */
   public static TimedMetricGroup getTimedMetricGroup(String group, String type) {
@@ -281,21 +281,68 @@ public class MetricManager {
   }
 
   /**
-   * Return all the timing metrics that are currently collecting per request timings.
+   * Return all the timing metrics that are currently collecting per request timings and whose name
+   * matches the name expression.
+   * <p>
+   * If the name match expression is null or empty then all timing metrics are returned.
+   * </p>
    * <p>
    * These are TimingMetric or BucketTimingMetrics that have {@link TimedMetric#getRequestTimingCollection()}
    * greater than 0.
    * </p>
+   * <h3>Example name match expressions:</h3>
+   * <pre>{@code
+   *
+   *   // starts with web.
+   *   "web.*"
+   *
+   *   // end with resource
+   *   "*resource"
+   *
+   *   // starts with web. and contains customer
+   *   "web.*customer*"
+   *
+   *   // starts with web. and contains customer and ends with resource
+   *   "web.*customer*resource"
+   *
+   * }</pre>
+   *
+   * @param nameMatchExpression the expression used to match/filter metric names. Null or empty means match all.
+   *
+   * @return timing metrics that are actively collecting request timings.
    */
-  public static List<TimingMetricInfo> getRequestTimingMetrics() {
-    return mgr.getRequestTimingMetrics();
+  public static List<TimingMetricInfo> getRequestTimingMetrics(String nameMatchExpression) {
+    return mgr.getRequestTimingMetrics(nameMatchExpression);
   }
 
   /**
-   * Return the list of all timing metrics.
+   * Return the list of all timing metrics that match the name expression.
+   * <p>
+   * If the name match expression is null or empty then all timing metrics are returned.
+   * </p>
+   *
+   * <h3>Example name match expressions:</h3>
+   * <pre>{@code
+   *
+   *   // starts with web.
+   *   "web.*"
+   *
+   *   // end with resource
+   *   "*resource"
+   *
+   *   // starts with web. and contains customer
+   *   "web.*customer*"
+   *
+   *   // starts with web. and contains customer and ends with resource
+   *   "web.*customer*resource"
+   *
+   * }</pre>
+   *
+   * @param nameMatchExpression the expression used to match/filter metric names. Null or empty means match all.
+   * @return all timing metrics those name matches the expression.
    */
-  public static List<TimingMetricInfo> getAllTimingMetrics() {
-    return mgr.getAllTimingMetrics();
+  public static List<TimingMetricInfo> getAllTimingMetrics(String nameMatchExpression) {
+    return mgr.getAllTimingMetrics(nameMatchExpression);
   }
 
   /**
@@ -325,11 +372,29 @@ public class MetricManager {
    * set to collect say 10 requests.
    * </p>
    *
+   * <h3>Example name match expressions:</h3>
+   * <pre>{@code
+   *
+   *   // starts with web.
+   *   "web.*"
+   *
+   *   // end with resource
+   *   "*resource"
+   *
+   *   // starts with web. and contains customer
+   *   "web.*customer*"
+   *
+   *   // starts with web. and contains customer and ends with resource
+   *   "web.*customer*resource"
+   *
+   * }</pre>
+   *
+   * @param nameMatchExpression Expression that can contain "*" characters as wildcards
    * @param collectionCount the number of requests to collect request timings for
    * @return the number of metric that request collection was set on
    */
-  public int setRequestTimingCollectionStartsWith(String nameStartsWith, int collectionCount) {
-    return mgr.setRequestTimingCollectionStartsWith(nameStartsWith, collectionCount);
+  public static int setRequestTimingCollectionUsingMatch(String nameMatchExpression, int collectionCount) {
+    return mgr.setRequestTimingCollectionUsingMatch(nameMatchExpression, collectionCount);
   }
 
 }

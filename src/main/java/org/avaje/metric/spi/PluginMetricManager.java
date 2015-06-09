@@ -118,12 +118,12 @@ public interface PluginMetricManager {
    * greater than 0.
    * </p>
    */
-  List<TimingMetricInfo> getRequestTimingMetrics();
+  List<TimingMetricInfo> getRequestTimingMetrics(String nameMatchExpression);
 
   /**
    * Return the list of all timing metrics.
    */
-  List<TimingMetricInfo> getAllTimingMetrics();
+  List<TimingMetricInfo> getAllTimingMetrics(String nameMatchExpression);
 
   /**
    * Set request timing on for a metric matching the class and name.
@@ -142,6 +142,6 @@ public interface PluginMetricManager {
    * set to collect say 10 requests.
    * </p>
    */
-  int setRequestTimingCollectionStartsWith(String nameStartsWith, int collectionCount);
+  int setRequestTimingCollectionUsingMatch(String nameMatchExpression, int collectionCount);
 
 }
