@@ -389,11 +389,12 @@ public class MetricManager {
    *
    * }</pre>
    *
-   * @param nameMatchExpression Expression that can contain "*" characters as wildcards
-   * @param collectionCount the number of requests to collect request timings for
-   * @return the number of metric that request collection was set on
+   *
+   * @param nameMatchExpression       The expression used to match timing metrics
+   * @param collectionCount           The number of requests to collect
+   * @return The timing metrics that had the request timing collection set
    */
-  public static int setRequestTimingCollectionUsingMatch(String nameMatchExpression, int collectionCount) {
+  public static List<TimingMetricInfo> setRequestTimingCollectionUsingMatch(String nameMatchExpression, int collectionCount) {
     return mgr.setRequestTimingCollectionUsingMatch(nameMatchExpression, collectionCount);
   }
 

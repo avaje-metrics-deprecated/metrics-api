@@ -126,7 +126,7 @@ public interface PluginMetricManager {
   List<TimingMetricInfo> getAllTimingMetrics(String nameMatchExpression);
 
   /**
-   * Set request timing on for a metric matching the class and name.
+   * Set request timing on for a metric matching the name.
    */
   boolean setRequestTimingCollection(String metricName, int collectionCount);
 
@@ -136,12 +136,29 @@ public interface PluginMetricManager {
   boolean setRequestTimingCollection(Class<?> cls, String name, int collectionCount);
 
   /**
-   * Set request timing on all the timed metrics whose name starts with a given prefix.
-   * <p>
-   * If for example all the web endpoints have a prefix of "web." then these can all be
-   * set to collect say 10 requests.
-   * </p>
+   * Set request timing collection on metrics that match the nameMatch expression.
+   *
+   * <h3>Example name match expressions:</h3>
+   * <pre>{@code
+   *
+   *   // starts with web.
+   *   "web.*"
+   *
+   *   // end with resource
+   *   "*resource"
+   *
+   *   // starts with web. and contains customer
+   *   "web.*customer*"
+   *
+   *   // starts with web. and contains customer and ends with resource
+   *   "web.*customer*resource"
+   *
+   * }</pre>
+   *
+   * @param nameMatchExpression The expression used to match timing metrics
+   * @param collectionCount     The number of requests to collect
+   * @return The timing metrics that had the request timing collection set
    */
-  int setRequestTimingCollectionUsingMatch(String nameMatchExpression, int collectionCount);
+  List<TimingMetricInfo> setRequestTimingCollectionUsingMatch(String nameMatchExpression, int collectionCount);
 
 }
