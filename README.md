@@ -7,7 +7,7 @@ Please refer to the documentation at http://avaje-metric.github.io/
 Included is sample output from the example application.
 
 
-## example output
+## Example Metrics output (typically reported every 60 seconds)  
 Below is a sample of the metric log output. The metrics are periodically collected 
 and output to a file or sent to a repository.
 
@@ -35,9 +35,10 @@ and output to a file or sent to a repository.
 14:01:00, tm, org.example.myapp.web.api.MetricResource.collecting, count=1, avg=382, max=382, sum=382, dur=10, err.count=0
 ```
 
-## example output - request timing
-Per request timing can be set for specific timing metrics. These produce output like that below
-showing for that single request where the time went.
+## Example Per Request output 
+Per request timing can be set for specific timing metrics - for example, collect per request timing on the next 5 invocations of the CustomerResource.asBean() method. 
+
+Per request timing output shows the nested calls and where the time went for that single request. The p column shows the percentage of total execution - for example 81% of execution time was taken in Muse.iDoTheRealWorkAroundHere.
 
 The columns are: d=depth, p=percentage, ms=milliseconds, us=microseconds, m=metric name
 
@@ -57,3 +58,5 @@ The columns are: d=depth, p=percentage, ms=milliseconds, us=microseconds, m=metr
    d:5    p:0    ms:0         us:11                          m:org.example.myapp.service.Muse.notParticularlyResistant
 ```
 CustomerResource.asBean took 612 milliseconds to execute. If you look at Muse.iDoTheRealWorkAroundHere it took 81% of the total execution time (500 milliseconds, 500204 microseconds). 
+
+> Per Request timing is a little bit more expensive to collect and can produce a lot of output. As such it is expected that you only turn it on when needed. For example, for the next 5 invocations of CustomerResource.asBean() collect per request timings.
