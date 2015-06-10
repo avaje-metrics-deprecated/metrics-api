@@ -36,9 +36,12 @@ and output to a file or sent to a repository.
 ```
 
 ## Example Per Request output 
+
+> Per Request timing is a little bit more expensive to collect and can produce a lot of output. As such it is expected that you only turn it on when needed. For example, for the next 5 invocations of CustomerResource.asBean() collect per request timings.
+
 Per request timing can be set for specific timing metrics - for example, collect per request timing on the next 5 invocations of the CustomerResource.asBean() method. 
 
-Per request timing output shows the nested calls and where the time went for that single request. The p column shows the percentage of total execution - for example 81% of execution time was taken in Muse.iDoTheRealWorkAroundHere.
+Per request timing output shows the nested calls and where the time went for that single request. The p column shows the percentage of total execution - for example 81% of execution time was taken in Muse.iDoTheRealWorkAroundHere.  Typically in looking at this output you ignore/remove/collapse anything that has percentage of 0.
 
 The columns are: d=depth, p=percentage, ms=milliseconds, us=microseconds, m=metric name
 
@@ -59,4 +62,4 @@ The columns are: d=depth, p=percentage, ms=milliseconds, us=microseconds, m=metr
 ```
 CustomerResource.asBean took 612 milliseconds to execute. If you look at Muse.iDoTheRealWorkAroundHere it took 81% of the total execution time (500 milliseconds, 500204 microseconds). 
 
-> Per Request timing is a little bit more expensive to collect and can produce a lot of output. As such it is expected that you only turn it on when needed. For example, for the next 5 invocations of CustomerResource.asBean() collect per request timings.
+
