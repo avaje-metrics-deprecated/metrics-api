@@ -4,6 +4,14 @@ Public API for Avaje Metrics.
 
 Please refer to the documentation at http://avaje-metric.github.io/
 
+```xml
+    <dependency>
+      <groupId>org.avaje.metric</groupId>
+      <artifactId>avaje-metric-api</artifactId>
+      <version>4.4.0</version>
+    </dependency>
+```
+
 Included is sample output from the example application.
 
 
