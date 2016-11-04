@@ -8,7 +8,7 @@
 
   <groupId>org.avaje.metric</groupId>
   <artifactId>avaje-metric-api</artifactId>
-  <version>5.1.1-SNAPSHOT</version>
+  <version>5.1.1</version>
   <name>avaje-metric-api</name>
   <url>http://avaje-metric.github.io</url>
 
@@ -16,6 +16,7 @@
     <connection>scm:git:https://github.com/avaje-metric/avaje-metric-api.git</connection>
     <developerConnection>scm:git:https://github.com/avaje-metric/avaje-metric-api.git</developerConnection>
     <url>https://github.com/avaje-metric/avaje-metric-api.git</url>
+    <tag>avaje-metric-api-5.1.1</tag>
   </scm>
 
   <dependencies>
