@@ -7,7 +7,7 @@
   </parent>
 
   <groupId>org.avaje.metric</groupId>
-  <artifactId>avaje-metric-api</artifactId>
+  <artifactId>metric-api</artifactId>
   <version>5.2.1-SNAPSHOT</version>
   <name>avaje-metric-api</name>
   <url>http://avaje-metric.github.io</url>
@@ -18,6 +18,12 @@
   </scm>
 
   <dependencies>
+
+    <dependency>
+      <groupId>org.avaje.metric</groupId>
+      <artifactId>metric-annotation</artifactId>
+      <version>5.1</version>
+    </dependency>
 
     <dependency>
       <groupId>org.avaje.composite</groupId>
