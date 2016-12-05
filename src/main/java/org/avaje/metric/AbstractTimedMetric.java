@@ -1,5 +1,7 @@
 package org.avaje.metric;
 
+import java.util.Map;
+
 /**
  * Common behavior for both TimedMetric and BucketTimedMetric.
  */
@@ -88,4 +90,9 @@ public interface AbstractTimedMetric extends Metric {
    * expected to be called by application code.
    */
   void decrementCollectionCount();
+
+  /**
+   * Return extra attributes that can be included in the request logging.
+   */
+  Map<String,String> attributes();
 }

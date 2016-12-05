@@ -80,6 +80,17 @@ package org.avaje.metric;
 public interface TimedMetric extends AbstractTimedMetric {
 
   /**
+   * Return true if this timed metric is part of a bucket range (and hence only hold statistics for the
+   * bucket range returned by <code>bucketRange()</code>.
+   */
+  boolean isBucket();
+
+  /**
+   * Return the bucket range or empty string if not a bucket.
+   */
+  String getBucketRange();
+
+  /**
    * Return the success statistics.
    */
   ValueStatistics getCollectedSuccessStatistics();
