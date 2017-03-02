@@ -82,6 +82,11 @@ public interface PluginMetricManager {
   Collection<Metric> collectNonEmptyMetrics();
 
   /**
+   * Return the collection of JVM metrics that are non-empty (for reporting).
+   */
+  Collection<Metric> collectNonEmptyJvmMetrics();
+
+  /**
    * Return a collection of all the metrics.
    */
   Collection<Metric> getMetrics();

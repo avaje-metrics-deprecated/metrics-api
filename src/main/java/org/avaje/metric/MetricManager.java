@@ -281,6 +281,13 @@ public class MetricManager {
   }
 
   /**
+   * Return jvm metrics that are not empty.
+   */
+  public static Collection<Metric> collectNonEmptyJvmMetrics() {
+    return mgr.collectNonEmptyJvmMetrics();
+  }
+
+  /**
    * Return all the timing metrics that are currently collecting per request timings and whose name
    * matches the name expression.
    * <p>
