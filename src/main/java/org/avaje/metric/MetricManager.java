@@ -269,7 +269,7 @@ public class MetricManager {
   /**
    * Return all the non-jvm registered metrics that are not empty.
    */
-  public static Collection<Metric> collectNonEmptyMetrics() {
+  public static List<Metric> collectNonEmptyMetrics() {
     return mgr.collectNonEmptyMetrics();
   }
 
@@ -283,7 +283,7 @@ public class MetricManager {
   /**
    * Return jvm metrics that are not empty.
    */
-  public static Collection<Metric> collectNonEmptyJvmMetrics() {
+  public static List<Metric> collectNonEmptyJvmMetrics() {
     return mgr.collectNonEmptyJvmMetrics();
   }
 

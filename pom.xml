@@ -8,7 +8,7 @@
 
   <groupId>org.avaje.metric</groupId>
   <artifactId>metric-api</artifactId>
-  <version>5.3.2-SNAPSHOT</version>
+  <version>6.1.1-SNAPSHOT</version>
   <name>avaje-metric-api</name>
   <url>http://avaje-metric.github.io</url>
 
@@ -22,7 +22,7 @@
     <dependency>
       <groupId>org.avaje.metric</groupId>
       <artifactId>metric-annotation</artifactId>
-      <version>5.1</version>
+      <version>6.1</version>
     </dependency>
 
     <dependency>

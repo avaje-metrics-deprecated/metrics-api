@@ -36,17 +36,8 @@ public interface MetricVisitor {
   void visit(GaugeDoubleMetric gauge) throws IOException;
 
   /**
-   * Visit a GaugeDoubleGroup.
-   */
-  void visit(GaugeDoubleGroup gaugeGroup) throws IOException;
-
-  /**
    * Visit an individual GaugeLongMetric.
    */
   void visit(GaugeLongMetric gauge) throws IOException;
 
-  /**
-   * Visit a GaugeLongGroup.
-   */
-  void visit(GaugeLongGroup gaugeGroup) throws IOException;
 }

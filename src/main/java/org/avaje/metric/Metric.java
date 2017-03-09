@@ -1,6 +1,7 @@
 package org.avaje.metric;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * A Metric that collects statistics on events.
@@ -26,7 +27,7 @@ public interface Metric {
    *         since the last collection and typically a reporter omits this metric from the output
    *         that is sent.
    */
-  boolean collectStatistics();
+  void collectStatistics(List<Metric> list);
 
   /**
    * Visit the metric typically reading and reporting the underlying statistics.

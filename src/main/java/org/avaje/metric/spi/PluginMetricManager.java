@@ -78,13 +78,16 @@ public interface PluginMetricManager {
   /**
    * Return the collection of metrics that are considered non-empty. This means these are metrics
    * that have collected statistics since the last time they were collected.
+   * <p>
+   * This gets the non emtpy metrics to add themselves to the report list.
+   * </p>
    */
-  Collection<Metric> collectNonEmptyMetrics();
+  List<Metric> collectNonEmptyMetrics();
 
   /**
    * Return the collection of JVM metrics that are non-empty (for reporting).
    */
-  Collection<Metric> collectNonEmptyJvmMetrics();
+  List<Metric> collectNonEmptyJvmMetrics();
 
   /**
    * Return a collection of all the metrics.
