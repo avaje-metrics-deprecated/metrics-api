@@ -8,7 +8,7 @@
 
   <groupId>org.avaje.metric</groupId>
   <artifactId>metric-api</artifactId>
-  <version>6.1.2-SNAPSHOT</version>
+  <version>7.1.1-SNAPSHOT</version>
   <name>avaje-metric-api</name>
   <url>http://avaje-metric.github.io</url>
 
@@ -22,7 +22,7 @@
     <dependency>
       <groupId>org.avaje.metric</groupId>
       <artifactId>metric-annotation</artifactId>
-      <version>6.1</version>
+      <version>7.1</version>
     </dependency>
 
     <dependency>
@@ -41,7 +41,7 @@
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>2.9.1</version>
         <configuration>
-          <doctitle>Avaje Metrics 5</doctitle>
+          <doctitle>Avaje Metrics 7</doctitle>
           <source>1.8</source>
           <doclet>org.avaje.doclet.PygmentsDoclet</doclet>
           <docletArtifact>

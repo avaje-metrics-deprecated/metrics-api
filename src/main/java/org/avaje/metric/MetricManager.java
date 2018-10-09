@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.ServiceLoader;
 
 import org.avaje.metric.spi.PluginMetricManager;
+import org.avaje.metric.statistics.MetricStatistics;
 
 /**
  * Manages the creation and registration of Metrics.
@@ -120,21 +121,21 @@ public class MetricManager {
   /**
    * Return a BucketTimedMetric given the name and bucket ranges.
    */
-  public static BucketTimedMetric getTimedMetric(MetricName name, int... bucketRanges) {
-    return mgr.getBucketTimedMetric(name, bucketRanges);
+  public static TimedMetric getTimedMetric(MetricName name, int... bucketRanges) {
+    return mgr.getTimedMetric(name, bucketRanges);
   }
 
   /**
    * Return a BucketTimedMetric given the name and bucket ranges.
    */
-  public static BucketTimedMetric getTimedMetric(Class<?> cls, String name, int... bucketRanges) {
+  public static TimedMetric getTimedMetric(Class<?> cls, String name, int... bucketRanges) {
     return getTimedMetric(name(cls, name), bucketRanges);
   }
 
   /**
    * Return a BucketTimedMetric given the name and bucket ranges.
    */
-  public static BucketTimedMetric getTimedMetric(String name, int... bucketRanges) {
+  public static TimedMetric getTimedMetric(String name, int... bucketRanges) {
     return getTimedMetric(name(name), bucketRanges);
   }
 
@@ -228,7 +229,7 @@ public class MetricManager {
    * @return the TimedMetricGroup used to create TimedMetric's that have a common base name.
    */
   public static TimedMetricGroup getTimedMetricGroup(String group, String type) {
-    return getTimedMetricGroup(name(group, type, ""));
+    return getTimedMetricGroup(MetricName.of(group, type, ""));
   }
 
   /**
@@ -269,7 +270,7 @@ public class MetricManager {
   /**
    * Return all the non-jvm registered metrics that are not empty.
    */
-  public static List<Metric> collectNonEmptyMetrics() {
+  public static List<MetricStatistics> collectNonEmptyMetrics() {
     return mgr.collectNonEmptyMetrics();
   }
 
@@ -283,7 +284,7 @@ public class MetricManager {
   /**
    * Return jvm metrics that are not empty.
    */
-  public static List<Metric> collectNonEmptyJvmMetrics() {
+  public static List<MetricStatistics> collectNonEmptyJvmMetrics() {
     return mgr.collectNonEmptyJvmMetrics();
   }
 

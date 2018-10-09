@@ -1,9 +1,9 @@
-package org.avaje.metric;
+package org.avaje.metric.statistics;
 
 /**
  * Statistics collected by ValueMetric or TimedMetric.
  */
-public interface ValueStatistics {
+public interface ValueStatistics extends MetricStatistics {
 
   /**
    * Return the time these statistics were collected from.

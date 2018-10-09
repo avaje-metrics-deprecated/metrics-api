@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.avaje.metric.*;
+import org.avaje.metric.statistics.MetricStatistics;
 
 /**
  * The SPI for the underlying implementation that is plugged in via service locator.
@@ -18,7 +19,7 @@ public interface PluginMetricManager {
 
   /**
    * Create a Metric name based on group, type and name.
-   * 
+   *
    * @param group
    *          The group which often maps to a package name.
    * @param type
@@ -34,7 +35,7 @@ public interface PluginMetricManager {
    * The name is expected to be in dot notation similar to <code>package.class.method</code>.
    */
   MetricName name(String name);
-  
+
   /**
    * Return the TimedMetric using the metric name.
    */
@@ -42,14 +43,14 @@ public interface PluginMetricManager {
 
   /**
    * Return the BucketTimedMetric using the given base metric name and bucketRanges.
-   * 
+   *
    * @param name
    *          The metric name
    * @param bucketRanges
    *          Time in milliseconds which are used to create buckets.
    */
-  BucketTimedMetric getBucketTimedMetric(MetricName name, int... bucketRanges);
-  
+  TimedMetric getTimedMetric(MetricName name, int... bucketRanges);
+
   /**
    * Return the CounterMetric using the metric name.
    */
@@ -59,7 +60,7 @@ public interface PluginMetricManager {
    * Return the ValueMetric using the metric name.
    */
   ValueMetric getValueMetric(MetricName name);
-  
+
   /**
    * Return the TimedMetricGroup using the given base metric name.
    */
@@ -82,12 +83,12 @@ public interface PluginMetricManager {
    * This gets the non emtpy metrics to add themselves to the report list.
    * </p>
    */
-  List<Metric> collectNonEmptyMetrics();
+  List<MetricStatistics> collectNonEmptyMetrics();
 
   /**
    * Return the collection of JVM metrics that are non-empty (for reporting).
    */
-  List<Metric> collectNonEmptyJvmMetrics();
+  List<MetricStatistics> collectNonEmptyJvmMetrics();
 
   /**
    * Return a collection of all the metrics.

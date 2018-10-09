@@ -10,28 +10,18 @@ package org.avaje.metric;
  *  // Declare the counter (typically as a static field)
  *  static final CounterMetric userLoginCounter = MetricManager.getCounterMetric(MyService.class, "userLogin");
  *  ...
- *  
+ *
  *  void performUserLogin() {
- *  
+ *
  *    // increment the counter
  *    userLoginCounter.markEvent();
  *    ...
  *  }
- *  
+ *
  * </code>
  * </pre>
  */
 public interface CounterMetric extends Metric {
-
-  /**
-   * Return the current statistics.
-   */
-  CounterStatistics getStatistics(boolean reset);
-
-  /**
-   * Return the collected statistics. This is used by reporting objects.
-   */
-  CounterStatistics getCollectedStatistics();
 
   /**
    * Mark that 1 event has occurred.
@@ -42,5 +32,10 @@ public interface CounterMetric extends Metric {
    * Mark that numberOfEventsOccurred events have occurred.
    */
   void markEvents(long numberOfEventsOccurred);
+
+  /**
+   * Return the current count.
+   */
+  long getCount();
 
 }

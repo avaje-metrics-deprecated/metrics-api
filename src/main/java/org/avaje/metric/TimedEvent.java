@@ -7,24 +7,24 @@ package org.avaje.metric;
  * that avoids an object creation and the associated GC so has slightly less overhead.
  * <p>
  * Example:
- * 
+ *
  * <pre>
  * <code>
  *  TimedMetric metric = MetricManager.getTimedMetric(MyService.class, "sayHello");
  *  ...
- *  
+ *
  *  TimedEvent timedEvent = metric.startEvent();
  *  try {
  *    ...
- *  
+ *
  *  } finally {
  *    // Add the event to the 'success' statistics
  *    timedEvent.endWithSuccess();
  *  }
- *  
+ *
  * </code>
  * </pre>
- * 
+ *
  * @see TimedMetric#startEvent()
  */
 public interface TimedEvent {
@@ -35,8 +35,7 @@ public interface TimedEvent {
   void end(boolean withSuccess);
 
   /**
-   * This timed event ended with successful execution (e.g. Successful SOAP Operation or SQL
-   * execution).
+   * This timed event ended with successful execution (e.g. Successful SOAP Operation or SQL execution).
    */
   void endWithSuccess();
 

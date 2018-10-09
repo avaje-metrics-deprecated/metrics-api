@@ -9,28 +9,43 @@ package org.avaje.metric;
  *  // Declare the metric (typically as a static field)
  *  static final ValueMetric totalBytesSentMetric = MetricManager.getValueMetric(MyService.class, "totalBytesSent");
  *  ...
- *  
+ *
  *  public void performSomeIO() {
- *  
+ *
  *    long bytesSent = ...
- *    
+ *
  *    totalBytesSentMetric.addEvent(bytesSent);
  *    ...
  *  }
- *  
+ *
  * </code>
- * </pre> 
+ * </pre>
  */
 public interface ValueMetric extends Metric {
-
-  /**
-   * Return the statistics collected.
-   */
-  ValueStatistics getCollectedStatistics();
 
   /**
    * Add a value (bytes, time, rows etc).
    */
   void addEvent(long value);
+
+  /**
+   * Return the count of values collected (since the last reset/collection).
+   */
+  long getCount();
+
+  /**
+   * Return the total of all the values (since the last reset/collection).
+   */
+  long getTotal();
+
+  /**
+   * Return the Max value collected (since the last reset/collection).
+   */
+  long getMax();
+
+  /**
+   * Return the mean value rounded up for the values collected since the last reset/collection.
+   */
+  long getMean();
 
 }

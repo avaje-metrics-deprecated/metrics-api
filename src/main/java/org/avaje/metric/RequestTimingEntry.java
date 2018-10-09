@@ -8,7 +8,7 @@ public interface RequestTimingEntry extends Comparable<RequestTimingEntry> {
   /**
    * Return the metric this entry is from.
    */
-  AbstractTimedMetric getMetric();
+  TimedMetric getMetric();
 
   /**
    * Returns the depth of the entry.
