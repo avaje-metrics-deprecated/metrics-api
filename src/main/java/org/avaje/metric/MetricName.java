@@ -72,4 +72,14 @@ public interface MetricName extends Comparable<MetricName> {
    * Create and return another MetricName based on this instance using the given name.
    */
   MetricName withName(String newName);
+
+  /**
+   * Return true if the metric name starts with the given prefix.
+   */
+  boolean startsWith(String prefix);
+
+  /**
+   * Return true if the metric is considered an "error" metric with a name ending in ".error".
+   */
+  boolean isError();
 }
