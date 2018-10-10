@@ -9,7 +9,7 @@ import org.avaje.metric.statistics.MetricStatistics;
 /**
  * The SPI for the underlying implementation that is plugged in via service locator.
  */
-public interface PluginMetricManager {
+public interface PluginMetricManager extends JvmMetrics, RequestTimingManager {
 
   /**
    * Create a MetricName based on the class and name.

@@ -261,17 +261,10 @@ public class MetricManager {
   }
 
   /**
-   * Return all the non-jvm registered metrics.
+   * Return all the non-JVM registered metrics.
    */
   public static Collection<Metric> getMetrics() {
     return mgr.getMetrics();
-  }
-
-  /**
-   * Return all the non-jvm registered metrics that are not empty.
-   */
-  public static List<MetricStatistics> collectNonEmptyMetrics() {
-    return mgr.collectNonEmptyMetrics();
   }
 
   /**
@@ -282,128 +275,32 @@ public class MetricManager {
   }
 
   /**
-   * Return jvm metrics that are not empty.
+   * Return all the non-JVM registered metrics that are not empty.
+   */
+  public static List<MetricStatistics> collectNonEmptyMetrics() {
+    return mgr.collectNonEmptyMetrics();
+  }
+
+  /**
+   * Return JVM metrics that are not empty.
    */
   public static List<MetricStatistics> collectNonEmptyJvmMetrics() {
     return mgr.collectNonEmptyJvmMetrics();
   }
 
   /**
-   * Return all the timing metrics that are currently collecting per request timings and whose name
-   * matches the name expression.
-   * <p>
-   * If the name match expression is null or empty then all timing metrics are returned.
-   * </p>
-   * <p>
-   * These are TimingMetric or BucketTimingMetrics that have {@link TimedMetric#getRequestTimingCollection()}
-   * greater than 0.
-   * </p>
-   * <h3>Example name match expressions:</h3>
-   * <pre>{@code
-   *
-   *   // starts with web.
-   *   "web.*"
-   *
-   *   // end with resource
-   *   "*resource"
-   *
-   *   // starts with web. and contains customer
-   *   "web.*customer*"
-   *
-   *   // starts with web. and contains customer and ends with resource
-   *   "web.*customer*resource"
-   *
-   * }</pre>
-   *
-   * @param nameMatchExpression the expression used to match/filter metric names. Null or empty means match all.
-   *
-   * @return timing metrics that are actively collecting request timings.
+   * Return the built in JVM metrics support to register collection of all or some
+   * of the built in JVM metrics.
    */
-  public static List<TimingMetricInfo> getRequestTimingMetrics(String nameMatchExpression) {
-    return mgr.getRequestTimingMetrics(nameMatchExpression);
+  public static JvmMetrics jvmMetrics() {
+    return mgr;
   }
 
   /**
-   * Return the list of all timing metrics that match the name expression.
-   * <p>
-   * If the name match expression is null or empty then all timing metrics are returned.
-   * </p>
-   *
-   * <h3>Example name match expressions:</h3>
-   * <pre>{@code
-   *
-   *   // starts with web.
-   *   "web.*"
-   *
-   *   // end with resource
-   *   "*resource"
-   *
-   *   // starts with web. and contains customer
-   *   "web.*customer*"
-   *
-   *   // starts with web. and contains customer and ends with resource
-   *   "web.*customer*resource"
-   *
-   * }</pre>
-   *
-   * @param nameMatchExpression the expression used to match/filter metric names. Null or empty means match all.
-   * @return all timing metrics those name matches the expression.
+   * Return the API for managing request timing.
    */
-  public static List<TimingMetricInfo> getAllTimingMetrics(String nameMatchExpression) {
-    return mgr.getAllTimingMetrics(nameMatchExpression);
-  }
-
-  /**
-   * Set request timing on for a metric matching the name.
-   *
-   * @param collectionCount the number of requests to collect request timings for
-   * @return true if request timing was set, false if the metric was not found.
-   */
-  public static boolean setRequestTimingCollection(String metricName, int collectionCount) {
-    return mgr.setRequestTimingCollection(metricName, collectionCount);
-  }
-
-  /**
-   * Set request timing on for a metric matching the class and name.
-   *
-   * @param collectionCount the number of requests to collect request timings for
-   * @return true if request timing was set, false if the metric was not found.
-   */
-  public static boolean setRequestTimingCollection(Class<?> cls, String name, int collectionCount) {
-    return mgr.setRequestTimingCollection(cls, name, collectionCount);
-  }
-
-  /**
-   * Set request timing on all the timed metrics whose name starts with a given prefix.
-   * <p>
-   * If for example all the web endpoints have a prefix of "web." then these can all be
-   * set to collect say 10 requests.
-   * </p>
-   *
-   * <h3>Example name match expressions:</h3>
-   * <pre>{@code
-   *
-   *   // starts with web.
-   *   "web.*"
-   *
-   *   // end with resource
-   *   "*resource"
-   *
-   *   // starts with web. and contains customer
-   *   "web.*customer*"
-   *
-   *   // starts with web. and contains customer and ends with resource
-   *   "web.*customer*resource"
-   *
-   * }</pre>
-   *
-   *
-   * @param nameMatchExpression       The expression used to match timing metrics
-   * @param collectionCount           The number of requests to collect
-   * @return The timing metrics that had the request timing collection set
-   */
-  public static List<TimingMetricInfo> setRequestTimingCollectionUsingMatch(String nameMatchExpression, int collectionCount) {
-    return mgr.setRequestTimingCollectionUsingMatch(nameMatchExpression, collectionCount);
+  public static RequestTimingManager requestTimingManager() {
+    return mgr;
   }
 
 }
