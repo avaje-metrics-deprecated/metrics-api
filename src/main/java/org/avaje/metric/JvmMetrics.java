@@ -6,11 +6,24 @@ package org.avaje.metric;
 public interface JvmMetrics {
 
   /**
-   * Register all the standard JVM metrics - memory, threads, gc, os load and process memory.
-   *
-   * @param reportChangesOnly When true only report metrics when the value changes.
+   * Set to only report when the metrics change. This is the default and means
+   * that metrics that don't change are not reported.
    */
-  void registerStandardJvmMetrics(boolean reportChangesOnly);
+  JvmMetrics withReportChangesOnly();
+
+  /**
+   * Set to report the metrics irrespective of whether the metric has changed.
+   * <p>
+   * For metrics that generally don't change like max memory or don't change as
+   * frequently these metrics will be reported every time.
+   * </p>
+   */
+  JvmMetrics withReportAlways();
+
+  /**
+   * Register all the standard JVM metrics - memory, threads, gc, os load and process memory.
+   */
+  void registerStandardJvmMetrics();
 
   /**
    * Register a metric for OS load.
@@ -24,23 +37,17 @@ public interface JvmMetrics {
 
   /**
    * Register metrics for the total number of threads allocated.
-   *
-   * @param reportChangesOnly When true only report metrics when the value changes.
    */
-  void registerJvmThreadMetrics(boolean reportChangesOnly);
+  void registerJvmThreadMetrics();
 
   /**
    * Register metrics for heap and non-heap memory.
-   *
-   * @param reportChangesOnly When true only report metrics when the value changes.
    */
-  void registerJvmMemoryMetrics(boolean reportChangesOnly);
+  void registerJvmMemoryMetrics();
 
   /**
    * Register metrics for VMRSS process memory (if supported on the platform).
-   *
-   * @param reportChangesOnly When true only report metrics when the value changes.
    */
-  void registerJvmProcessMemoryMetrics(boolean reportChangesOnly);
+  void registerJvmProcessMemoryMetrics();
 
 }
