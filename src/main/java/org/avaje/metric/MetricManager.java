@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ServiceLoader;
 
-import org.avaje.metric.spi.PluginMetricManager;
+import org.avaje.metric.spi.SpiMetricManager;
 import org.avaje.metric.statistics.MetricStatistics;
 
 /**
@@ -22,7 +22,7 @@ public class MetricManager {
   /**
    * The implementation that is found via service loader.
    */
-  private static final PluginMetricManager mgr = initialiseProvider();
+  private static final SpiMetricManager mgr = initialiseProvider();
 
   /**
    * The default implementation which is avaje-metric-core.
@@ -32,16 +32,16 @@ public class MetricManager {
   /**
    * Finds and returns the implementation of PluginMetricManager using the ServiceLoader.
    */
-  private static PluginMetricManager initialiseProvider() {
+  private static SpiMetricManager initialiseProvider() {
 
-    ServiceLoader<PluginMetricManager> loader = ServiceLoader.load(PluginMetricManager.class);
-    Iterator<PluginMetricManager> it = loader.iterator();
+    ServiceLoader<SpiMetricManager> loader = ServiceLoader.load(SpiMetricManager.class);
+    Iterator<SpiMetricManager> it = loader.iterator();
     if (it.hasNext()) {
       return it.next();
     }
     try {
       Class<?> clazz = Class.forName(DEFAULT_PROVIDER);
-      return (PluginMetricManager) clazz.newInstance();
+      return (SpiMetricManager) clazz.newInstance();
 
     } catch (ClassNotFoundException e) {
       throw new RuntimeException("Provider " + DEFAULT_PROVIDER + " not found", e);
@@ -59,33 +59,12 @@ public class MetricManager {
   }
 
   /**
-   * Return the request timings that have been collected since the last collection.
-   */
-  public static List<RequestTiming> collectRequestTimings() {
-    return mgr.collectRequestTimings();
-  }
-
-  /**
    * Create a MetricName based on a class and name.
    * <p>
    * Often the name maps to a method name.
    */
   public static MetricName name(Class<?> cls, String name) {
     return mgr.name(cls, name);
-  }
-
-  /**
-   * Create a Metric name based on group, type and name.
-   *
-   * @param group
-   *          The group which often maps to a package name.
-   * @param type
-   *          The type which often maps to a simple class name.
-   * @param name
-   *          The name which often maps to a method name.
-   */
-  public static MetricName name(String group, String type, String name) {
-    return mgr.name(group, type, name);
   }
 
   /**
@@ -221,15 +200,13 @@ public class MetricManager {
   /**
    * Return a TimedMetricGroup with a common group and type name.
    *
-   * @param group
-   *          the common group name
-   * @param type
-   *          the common type name
+   * @param name
+   *          the metric name
    *
    * @return the TimedMetricGroup used to create TimedMetric's that have a common base name.
    */
-  public static TimedMetricGroup getTimedMetricGroup(String group, String type) {
-    return getTimedMetricGroup(MetricName.of(group, type, ""));
+  public static TimedMetricGroup getTimedMetricGroup(String name) {
+    return getTimedMetricGroup(MetricName.of(name));
   }
 
   /**

@@ -8,6 +8,11 @@ import java.util.List;
 public interface RequestTimingManager {
 
   /**
+   * Return the request timings that have been collected since the last collection.
+   */
+  List<RequestTiming> collectRequestTimings();
+
+  /**
    * Return all the timing metrics that are currently collecting per request timings and whose name
    * matches the name expression.
    * <p>
