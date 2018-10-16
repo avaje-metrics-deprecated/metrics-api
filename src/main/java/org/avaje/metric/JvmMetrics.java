@@ -2,6 +2,18 @@ package org.avaje.metric;
 
 /**
  * Standard JVM metrics built in that we often register.
+ * <p>
+ * Typically we want the standard JVM metrics and either Logback or Log4J metrics
+ * and this provides a relatively easy way to register those.
+ * </p>
+ * <pre>{@code
+ *
+ *   MetricManager.jvmMetrics()
+ *     .withReportAlways()
+ *     .registerStandardJvmMetrics()
+ *     .registerLogbackMetrics();
+ *
+ * }</pre>
  */
 public interface JvmMetrics {
 
@@ -23,31 +35,49 @@ public interface JvmMetrics {
   /**
    * Register all the standard JVM metrics - memory, threads, gc, os load and process memory.
    */
-  void registerStandardJvmMetrics();
+  JvmMetrics registerStandardJvmMetrics();
 
   /**
    * Register a metric for OS load.
    */
-  void registerJvmOsLoadMetric();
+  JvmMetrics registerJvmOsLoadMetric();
 
   /**
    * Register metrics for GC activity.
    */
-  void registerJvmGCMetrics();
+  JvmMetrics registerJvmGCMetrics();
 
   /**
    * Register metrics for the total number of threads allocated.
    */
-  void registerJvmThreadMetrics();
+  JvmMetrics registerJvmThreadMetrics();
 
   /**
    * Register metrics for heap and non-heap memory.
    */
-  void registerJvmMemoryMetrics();
+  JvmMetrics registerJvmMemoryMetrics();
 
   /**
    * Register metrics for VMRSS process memory (if supported on the platform).
    */
-  void registerJvmProcessMemoryMetrics();
+  JvmMetrics registerJvmProcessMemoryMetrics();
+
+  /**
+   * Set the names of the metrics for logging errors and warnings.
+   * <p>
+   * When not set these default to app.log.error and app.log.warn respectively.
+   * </p>
+   */
+  JvmMetrics withLogMetricName(String errorMetricName, String warnMetricName);
+
+  /**
+   * Register metrics for Logback error and warning messages.
+   */
+  JvmMetrics registerLogbackMetrics();
+
+  /**
+   * Register metrics for Log4J error and warning messages.
+   */
+  JvmMetrics registerLog4JMetrics();
 
 }
