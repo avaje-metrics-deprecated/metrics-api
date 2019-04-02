@@ -59,6 +59,13 @@ public class MetricManager {
   }
 
   /**
+   * Add a metric supplier to the manager. These metrics are then included in the reporting.
+   */
+  public static void addSupplier(MetricSupplier supplier) {
+    mgr.addSupplier(supplier);
+  }
+
+  /**
    * Create a MetricName based on a class and name.
    * <p>
    * Often the name maps to a method name.

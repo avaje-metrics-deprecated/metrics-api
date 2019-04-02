@@ -103,5 +103,9 @@ public interface SpiMetricManager extends JvmMetrics, RequestTimingManager {
    */
   void reportTiming(RequestTiming requestTiming);
 
+  /**
+   * Add a metric supplier.
+   */
+  void addSupplier(MetricSupplier supplier);
 
 }
