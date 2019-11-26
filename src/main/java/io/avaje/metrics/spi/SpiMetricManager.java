@@ -41,7 +41,7 @@ public interface SpiMetricManager extends JvmMetrics, RequestTimingManager {
   /**
    * Return the TimedMetric using the metric name.
    */
-  TimedMetric getTimedMetric(MetricName name);
+  TimedMetric timed(MetricName name);
 
   /**
    * Return the BucketTimedMetric using the given base metric name and bucketRanges.
@@ -51,32 +51,32 @@ public interface SpiMetricManager extends JvmMetrics, RequestTimingManager {
    * @param bucketRanges
    *          Time in milliseconds which are used to create buckets.
    */
-  TimedMetric getTimedMetric(MetricName name, int... bucketRanges);
+  TimedMetric timed(MetricName name, int... bucketRanges);
 
   /**
    * Return the CounterMetric using the metric name.
    */
-  CounterMetric getCounterMetric(MetricName name);
+  CounterMetric counter(MetricName name);
 
   /**
    * Return the ValueMetric using the metric name.
    */
-  ValueMetric getValueMetric(MetricName name);
+  ValueMetric value(MetricName name);
 
   /**
    * Return the TimedMetricGroup using the given base metric name.
    */
-  TimedMetricGroup getTimedMetricGroup(MetricName baseName);
+  TimedMetricGroup timedGroup(MetricName baseName);
 
   /**
    * Return the MetricNameCache using the class as a base name.
    */
-  MetricNameCache getMetricNameCache(Class<?> cls);
+  MetricNameCache nameCache(Class<?> cls);
 
   /**
    * Return the MetricNameCache using a MetricName as a base name.
    */
-  MetricNameCache getMetricNameCache(MetricName baseName);
+  MetricNameCache nameCache(MetricName baseName);
 
   /**
    * Return the collection of metrics that are considered non-empty. This means these are metrics

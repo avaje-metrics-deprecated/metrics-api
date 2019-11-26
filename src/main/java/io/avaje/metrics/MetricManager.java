@@ -89,8 +89,8 @@ public class MetricManager {
    * overhead.
    * </p>
    */
-  public static MetricNameCache getMetricNameCache(Class<?> cls) {
-    return mgr.getMetricNameCache(cls);
+  public static MetricNameCache nameCache(Class<?> cls) {
+    return mgr.nameCache(cls);
   }
 
   /**
@@ -100,99 +100,99 @@ public class MetricManager {
    * overhead.
    * </p>
    */
-  public static MetricNameCache getMetricNameCache(MetricName baseName) {
-    return mgr.getMetricNameCache(baseName);
+  public static MetricNameCache nameCache(MetricName baseName) {
+    return mgr.nameCache(baseName);
   }
 
   /**
    * Return a BucketTimedMetric given the name and bucket ranges.
    */
-  public static TimedMetric getTimedMetric(MetricName name, int... bucketRanges) {
-    return mgr.getTimedMetric(name, bucketRanges);
+  public static TimedMetric timed(MetricName name, int... bucketRanges) {
+    return mgr.timed(name, bucketRanges);
   }
 
   /**
    * Return a BucketTimedMetric given the name and bucket ranges.
    */
-  public static TimedMetric getTimedMetric(Class<?> cls, String name, int... bucketRanges) {
-    return getTimedMetric(name(cls, name), bucketRanges);
+  public static TimedMetric timed(Class<?> cls, String name, int... bucketRanges) {
+    return timed(name(cls, name), bucketRanges);
   }
 
   /**
    * Return a BucketTimedMetric given the name and bucket ranges.
    */
-  public static TimedMetric getTimedMetric(String name, int... bucketRanges) {
-    return getTimedMetric(name(name), bucketRanges);
+  public static TimedMetric timed(String name, int... bucketRanges) {
+    return timed(name(name), bucketRanges);
   }
 
   /**
    * Return a TimedMetric given the name.
    */
-  public static TimedMetric getTimedMetric(MetricName name) {
-    return mgr.getTimedMetric(name);
+  public static TimedMetric timed(MetricName name) {
+    return mgr.timed(name);
   }
 
   /**
    * Return a TimedMetric using the Class, name to derive the MetricName.
    */
-  public static TimedMetric getTimedMetric(Class<?> cls, String eventName) {
-    return getTimedMetric(name(cls, eventName));
+  public static TimedMetric timed(Class<?> cls, String eventName) {
+    return timed(name(cls, eventName));
   }
 
   /**
    * Return a TimedMetric given the name.
    */
-  public static TimedMetric getTimedMetric(String name) {
-    return getTimedMetric(name(name));
+  public static TimedMetric timed(String name) {
+    return timed(name(name));
   }
 
   /**
    * Return a CounterMetric given the name.
    */
-  public static CounterMetric getCounterMetric(MetricName name) {
-    return mgr.getCounterMetric(name);
+  public static CounterMetric counter(MetricName name) {
+    return mgr.counter(name);
   }
 
   /**
    * Return a CounterMetric given the name.
    */
-  public static CounterMetric getCounterMetric(String name) {
-    return getCounterMetric(name(name));
+  public static CounterMetric counter(String name) {
+    return counter(name(name));
   }
 
   /**
    * Return a CounterMetric using the Class and name to derive the MetricName.
    */
-  public static CounterMetric getCounterMetric(Class<?> cls, String eventName) {
-    return getCounterMetric(name(cls, eventName));
+  public static CounterMetric counter(Class<?> cls, String eventName) {
+    return counter(name(cls, eventName));
   }
 
   /**
    * Return a ValueMetric given the name.
    */
-  public static ValueMetric getValueMetric(MetricName name) {
-    return mgr.getValueMetric(name);
+  public static ValueMetric value(MetricName name) {
+    return mgr.value(name);
   }
 
   /**
    * Return a ValueMetric using the Class and name to derive the MetricName.
    */
-  public static ValueMetric getValueMetric(Class<?> cls, String eventName) {
-    return getValueMetric(name(cls, eventName));
+  public static ValueMetric value(Class<?> cls, String eventName) {
+    return value(name(cls, eventName));
   }
 
   /**
    * Return a ValueMetric given the name.
    */
-  public static ValueMetric getValueMetric(String name) {
-    return getValueMetric(name(name));
+  public static ValueMetric value(String name) {
+    return value(name(name));
   }
 
   /**
    * Return the TimedMetricGroup with a based metric name.
    */
-  public static TimedMetricGroup getTimedMetricGroup(MetricName baseName) {
-    return mgr.getTimedMetricGroup(baseName);
+  public static TimedMetricGroup timedGroup(MetricName baseName) {
+    return mgr.timedGroup(baseName);
   }
 
   /**
@@ -200,8 +200,8 @@ public class MetricManager {
    * <p>
    * The package name is the 'group' and the simple class name the 'type'.
    */
-  public static TimedMetricGroup getTimedMetricGroup(Class<?> cls) {
-    return getTimedMetricGroup(name(cls,""));
+  public static TimedMetricGroup timedGroup(Class<?> cls) {
+    return timedGroup(name(cls,""));
   }
 
   /**
@@ -212,8 +212,8 @@ public class MetricManager {
    *
    * @return the TimedMetricGroup used to create TimedMetric's that have a common base name.
    */
-  public static TimedMetricGroup getTimedMetricGroup(String name) {
-    return getTimedMetricGroup(MetricName.of(name));
+  public static TimedMetricGroup timedGroup(String name) {
+    return timedGroup(MetricName.of(name));
   }
 
   /**
