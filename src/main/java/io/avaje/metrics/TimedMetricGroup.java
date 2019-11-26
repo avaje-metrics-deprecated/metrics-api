@@ -26,7 +26,7 @@ public interface TimedMetricGroup {
   /**
    * Return the TimedMetric for the specific name.
    */
-  TimedMetric getTimedMetric(String name);
+  TimedMetric timed(String name);
 
   /**
    * Add an event based on a startNanos (determined by {@link System#nanoTime()}).
