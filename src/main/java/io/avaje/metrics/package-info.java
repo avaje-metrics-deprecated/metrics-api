@@ -5,7 +5,7 @@
  * <ul>
  * <li> Timers - used to collect timing statistics on methods or sections of code.</li>
  * <li> Gauges - used to monitor resource values like memory (used, max etc) and threads (active, max etc).</li>
- * <li> Counters - count events like number of logins, number of errors logged.</li>
+ * <li> Counters - count events like number of login events, number of errors logged.</li>
  * <li> Value - used to collect statistics on values that aggregate like total bytes sent etc.
  * </ul>
  * <p>

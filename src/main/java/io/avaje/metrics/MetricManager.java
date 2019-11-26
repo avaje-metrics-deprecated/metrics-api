@@ -25,7 +25,7 @@ public class MetricManager {
   private static final SpiMetricManager mgr = initialiseProvider();
 
   /**
-   * The default implementation which is avaje-metric-core.
+   * The default implementation.
    */
   private static final String DEFAULT_PROVIDER = "io.avaje.metrics.core.DefaultMetricManager";
 
