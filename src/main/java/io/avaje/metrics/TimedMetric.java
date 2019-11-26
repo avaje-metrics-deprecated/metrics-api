@@ -4,6 +4,64 @@ import java.util.Map;
 
 /**
  * A TimedMetric for measuring execution time for methods and events.
+ *
+ * <h3>Adding TimedMetric via <code>@Timed</code> and enhancement</h3>
+ * <p>
+ * We can use timed metric by putting <code>@Timed</code> annotation on
+ * a class. When we do that all public methods of that class will have timing
+ * added via enhancement.
+ * </p>
+ * <p>
+ * We can put <code>@Timed</code> on private methods that we want to have timed
+ * (as private methods don't have timing added by default).
+ * </p>
+ * <p>
+ * We can put <code>@NotTimed</code> on public methods that we don't want timing on.
+ * </p>
+ *
+ * <h3>Adding TimedMetric via code</h3>
+ * <p>
+ * Alternatively we can use TimedMetric via writing code ourselves to get the
+ * TimedMetric and use TimedEvent like the following example:
+ * </p>
+ *
+ * <pre>
+ * <code>
+ *  TimedMetric metric = MetricManager.getTimedMetric(MyService.class, "sayHello");
+ *  ...
+ *
+ *  TimedEvent timedEvent = metric.startEvent();
+ *  try {
+ *    ...
+ *
+ *  } finally {
+ *    // Add the event to the 'success' statistics
+ *    timedEvent.endWithSuccess();
+ *  }
+ *
+ * </code>
+ * </pre>
+ *
+ * <p>
+ * Alternatively we can add event timing using a start time in nanos
+ * like the following example:
+ * </p>
+ *
+ * <pre>
+ * <code>
+ *  TimedMetric metric = MetricManager.getTimedMetric(MyService.class, "sayHello");
+ *  ...
+ *
+ *  long startNanos = System.nanoTime();
+ *  try {
+ *    ...
+ *
+ *  } finally {
+ *    metric.addEventSince(success, startNanos);
+ *  }
+ *
+ * </code>
+ * </pre>
  */
 public interface TimedMetric extends Metric {
 
@@ -54,20 +112,28 @@ public interface TimedMetric extends Metric {
   String getBucketRange();
 
   /**
-   * Add an event duration with opCode indicating success or failure. This is intended for use by
-   * enhanced code and not general use.
-   * <p>
-   * Although this looks redundant and a little ugly having this method means that for enhancement
-   * the added byte code is minimised. In the case where metric collection is turned off overhead is
-   * limited to a System.nanoTime() call and a noop method call.
+   * Add an successful event duration.
+   * This is intended for use by enhanced code and not general use.
    */
-  void operationEnd(int opCode, long startNanos, boolean activeThreadContext);
+  void operationEnd(long startNanos);
 
   /**
-   * Add an event duration with opCode indicating success or failure. This is intended for use by
-   * enhanced code and not general use.
+   * Add an successful event duration with active thread context.
+   * This is intended for use by enhanced code and not general use.
    */
-  void operationEnd(int opCode, long startNanos);
+  void operationEnd(long startNanos, boolean activeThreadContext);
+
+  /**
+   * Add an error event duration.
+   * This is intended for use by enhanced code and not general use.
+   */
+  void operationErr(long startNanos);
+
+  /**
+   * Add an error event duration with active thread context.
+   * This is intended for use by enhanced code and not general use.
+   */
+  void operationErr(long startNanos, boolean activeThreadContext);
 
   /**
    * Return true if this TimedMetric has been pushed onto an active context for this thread.
