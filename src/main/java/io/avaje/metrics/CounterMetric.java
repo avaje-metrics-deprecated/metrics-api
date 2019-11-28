@@ -24,14 +24,14 @@ package io.avaje.metrics;
 public interface CounterMetric extends Metric {
 
   /**
-   * Mark that 1 event has occurred.
+   * Increment the counter by 1.
    */
-  void markEvent();
+  void inc();
 
   /**
-   * Mark that numberOfEventsOccurred events have occurred.
+   * Increment the counter by the given value.
    */
-  void markEvents(long numberOfEventsOccurred);
+  void inc(long value);
 
   /**
    * Return the current count.
