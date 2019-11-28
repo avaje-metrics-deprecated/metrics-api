@@ -14,7 +14,7 @@ package io.avaje.metrics;
  *  void performUserLogin() {
  *
  *    // increment the counter
- *    userLoginCounter.markEvent();
+ *    userLoginCounter.inc();
  *    ...
  *  }
  *
