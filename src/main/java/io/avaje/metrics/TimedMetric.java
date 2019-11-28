@@ -1,6 +1,7 @@
 package io.avaje.metrics;
 
 import java.util.Map;
+import java.util.function.Supplier;
 
 /**
  * A TimedMetric for measuring execution time for methods and events.
@@ -64,6 +65,16 @@ import java.util.Map;
  * </pre>
  */
 public interface TimedMetric extends Metric {
+
+  /**
+   * Times the execution of the event.
+   */
+  void time(Runnable event);
+
+  /**
+   * Times the execution of the event.
+   */
+  <T> T time(Supplier<T> event);
 
   /**
    * Start an event.
