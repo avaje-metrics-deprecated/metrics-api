@@ -27,7 +27,7 @@ import java.util.Map;
  *
  * <pre>
  * <code>
- *  TimedMetric metric = MetricManager.getTimedMetric(MyService.class, "sayHello");
+ *  TimedMetric metric = MetricManager.timed(MyService.class, "sayHello");
  *  ...
  *
  *  TimedEvent timedEvent = metric.startEvent();
@@ -49,7 +49,7 @@ import java.util.Map;
  *
  * <pre>
  * <code>
- *  TimedMetric metric = MetricManager.getTimedMetric(MyService.class, "sayHello");
+ *  TimedMetric metric = MetricManager.timed(MyService.class, "sayHello");
  *  ...
  *
  *  long startNanos = System.nanoTime();

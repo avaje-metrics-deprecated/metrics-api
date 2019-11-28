@@ -10,7 +10,7 @@ package io.avaje.metrics;
  *
  * <pre>
  * <code>
- *  TimedMetric metric = MetricManager.getTimedMetric(MyService.class, "sayHello");
+ *  TimedMetric metric = MetricManager.timed(MyService.class, "sayHello");
  *  ...
  *
  *  TimedEvent timedEvent = metric.startEvent();

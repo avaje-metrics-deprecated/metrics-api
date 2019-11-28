@@ -7,7 +7,7 @@ package io.avaje.metrics;
  * <pre>
  * <code>
  *  // Declare the metric (typically as a static field)
- *  static final ValueMetric totalBytesSentMetric = MetricManager.getValueMetric(MyService.class, "totalBytesSent");
+ *  static final ValueMetric totalBytesSentMetric = MetricManager.value(MyService.class, "totalBytesSent");
  *  ...
  *
  *  public void performSomeIO() {
