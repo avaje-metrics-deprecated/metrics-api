@@ -9,7 +9,6 @@ package io.avaje.metrics;
  * <pre>{@code
  *
  *   MetricManager.jvmMetrics()
- *     .withReportAlways()
  *     .registerStandardJvmMetrics()
  *     .registerLogbackMetrics();
  *
@@ -60,7 +59,12 @@ public interface JvmMetrics {
   /**
    * Register metrics for VMRSS process memory (if supported on the platform).
    */
-  JvmMetrics registerJvmProcessMemoryMetrics();
+  JvmMetrics registerProcessMemoryMetrics();
+
+  /**
+   * Register CGroup metrics for CPU usage time, throttle time, requests and limits.
+   */
+  JvmMetrics registerCGroupMetrics();
 
   /**
    * Set the names of the metrics for logging errors and warnings.
