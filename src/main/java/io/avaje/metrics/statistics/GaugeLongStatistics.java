@@ -4,7 +4,6 @@ import io.avaje.metrics.GaugeLongMetric;
 
 /**
  * Statistics provided by the {@link GaugeLongMetric}.
- *
  */
 public interface GaugeLongStatistics extends MetricStatistics {
 

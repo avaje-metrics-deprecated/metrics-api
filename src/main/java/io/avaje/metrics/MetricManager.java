@@ -1,12 +1,12 @@
 package io.avaje.metrics;
 
+import io.avaje.metrics.spi.SpiMetricManager;
+import io.avaje.metrics.statistics.MetricStatistics;
+
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ServiceLoader;
-
-import io.avaje.metrics.spi.SpiMetricManager;
-import io.avaje.metrics.statistics.MetricStatistics;
 
 /**
  * Manages the creation and registration of Metrics.
@@ -201,15 +201,13 @@ public class MetricManager {
    * The package name is the 'group' and the simple class name the 'type'.
    */
   public static TimedMetricGroup timedGroup(Class<?> cls) {
-    return timedGroup(name(cls,""));
+    return timedGroup(name(cls, ""));
   }
 
   /**
    * Return a TimedMetricGroup with a common group and type name.
    *
-   * @param name
-   *          the metric name
-   *
+   * @param name the metric name
    * @return the TimedMetricGroup used to create TimedMetric's that have a common base name.
    */
   public static TimedMetricGroup timedGroup(String name) {

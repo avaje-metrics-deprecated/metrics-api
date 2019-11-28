@@ -20,7 +20,6 @@ public interface MetricStatisticsVisitor {
    */
   void visit(CounterStatistics counter);
 
-
   /**
    * Visit GaugeDoubleStatistics
    */

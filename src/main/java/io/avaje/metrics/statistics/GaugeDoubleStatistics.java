@@ -4,7 +4,6 @@ import io.avaje.metrics.GaugeDoubleMetric;
 
 /**
  * Statistics provided by the {@link GaugeDoubleMetric}.
- *
  */
 public interface GaugeDoubleStatistics extends MetricStatistics {
 

@@ -40,7 +40,6 @@ public interface RequestTimingManager {
    * }</pre>
    *
    * @param nameMatchExpression the expression used to match/filter metric names. Null or empty means match all.
-   *
    * @return timing metrics that are actively collecting request timings.
    */
   List<TimingMetricInfo> getRequestTimingMetrics(String nameMatchExpression);
@@ -113,9 +112,8 @@ public interface RequestTimingManager {
    *
    * }</pre>
    *
-   *
-   * @param nameMatchExpression       The expression used to match timing metrics
-   * @param collectionCount           The number of requests to collect
+   * @param nameMatchExpression The expression used to match timing metrics
+   * @param collectionCount     The number of requests to collect
    * @return The timing metrics that had the request timing collection set
    */
   List<TimingMetricInfo> setRequestTimingCollectionUsingMatch(String nameMatchExpression, int collectionCount);

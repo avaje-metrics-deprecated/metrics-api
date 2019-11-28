@@ -1,8 +1,5 @@
 package io.avaje.metrics.spi;
 
-import java.util.Collection;
-import java.util.List;
-
 import io.avaje.metrics.CounterMetric;
 import io.avaje.metrics.GaugeDouble;
 import io.avaje.metrics.GaugeDoubleMetric;
@@ -19,6 +16,9 @@ import io.avaje.metrics.TimedMetric;
 import io.avaje.metrics.TimedMetricGroup;
 import io.avaje.metrics.ValueMetric;
 import io.avaje.metrics.statistics.MetricStatistics;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
  * The SPI for the underlying implementation that is plugged in via service locator.
@@ -46,10 +46,8 @@ public interface SpiMetricManager extends JvmMetrics, RequestTimingManager {
   /**
    * Return the BucketTimedMetric using the given base metric name and bucketRanges.
    *
-   * @param name
-   *          The metric name
-   * @param bucketRanges
-   *          Time in milliseconds which are used to create buckets.
+   * @param name         The metric name
+   * @param bucketRanges Time in milliseconds which are used to create buckets.
    */
   TimedMetric timed(MetricName name, int... bucketRanges);
 

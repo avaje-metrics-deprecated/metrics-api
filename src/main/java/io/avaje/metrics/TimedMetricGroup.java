@@ -16,9 +16,7 @@ public interface TimedMetricGroup {
    * Typically the underlying implementation uses a cache to lookup the TimedMetric and create it if
    * necessary.
    *
-   * @param name
-   *          the specific name for the metric (group and type name parts are common).
-   *
+   * @param name the specific name for the metric (group and type name parts are common).
    * @return the TimedMetricEvent that has started.
    */
   TimedEvent start(String name);
