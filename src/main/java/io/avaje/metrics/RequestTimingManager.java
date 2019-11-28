@@ -19,7 +19,7 @@ public interface RequestTimingManager {
    * If the name match expression is null or empty then all timing metrics are returned.
    * </p>
    * <p>
-   * These are TimingMetric that have {@link TimedMetric#getRequestTimingCollection()}
+   * These are TimingMetric that have {@link TimedMetric#getRequestTiming()}
    * greater than 0.
    * </p>
    * <h3>Example name match expressions:</h3>

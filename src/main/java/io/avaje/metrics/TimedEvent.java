@@ -19,7 +19,7 @@ package io.avaje.metrics;
  *
  *  } finally {
  *    // Add the event to the 'success' statistics
- *    timedEvent.endWithSuccess();
+ *    timedEvent.end();
  *  }
  *
  * </code>
@@ -30,18 +30,18 @@ package io.avaje.metrics;
 public interface TimedEvent {
 
   /**
+   * This timed event ended with successful execution.
+   */
+  void end();
+
+  /**
+   * This timed event ended with an error or fault execution.
+   */
+  void endWithError();
+
+  /**
    * End specifying whether the event was successful or in error.
    */
   void end(boolean withSuccess);
-
-  /**
-   * This timed event ended with successful execution (e.g. Successful SOAP Operation or SQL execution).
-   */
-  void endWithSuccess();
-
-  /**
-   * This timed event ended with an error or fault execution (e.g. SOAP Fault or SQL exception).
-   */
-  void endWithError();
 
 }

@@ -36,7 +36,7 @@ import java.util.Map;
  *
  *  } finally {
  *    // Add the event to the 'success' statistics
- *    timedEvent.endWithSuccess();
+ *    timedEvent.end();
  *  }
  *
  * </code>
@@ -57,7 +57,7 @@ import java.util.Map;
  *    ...
  *
  *  } finally {
- *    metric.addEventSince(success, startNanos);
+ *    metric.add(startNanos);
  *  }
  *
  * </code>
@@ -68,7 +68,7 @@ public interface TimedMetric extends Metric {
   /**
    * Start an event.
    * <p>
-   * At the completion of the event one of {@link TimedEvent#endWithSuccess()},
+   * At the completion of the event one of {@link TimedEvent#end()},
    * {@link TimedEvent#endWithError()} or {@link TimedEvent#end(boolean)} is called to record the
    * event duration and success or otherwise.
    * <p>
@@ -78,6 +78,32 @@ public interface TimedMetric extends Metric {
    * generally addEventSince() is the preferred method to use.
    */
   TimedEvent startEvent();
+
+  /**
+   * Add an successful event duration.
+   */
+  void add(long startNanos);
+
+  /**
+   * Add an successful event duration with request timing.
+   */
+  void add(long startNanos, boolean requestTiming);
+
+  /**
+   * Add an error event duration to the error.
+   * <p>
+   * Success and error execution are kept on separate metrics.
+   * </p>
+   */
+  void addErr(long startNanos);
+
+  /**
+   * Add an error event duration with request timing.
+   * <p>
+   * Success and error execution are kept on separate metrics.
+   * </p>
+   */
+  void addErr(long startNanos, boolean requestTiming);
 
   /**
    * Add an event based on a startNanos (determined by {@link System#nanoTime()}).
@@ -112,37 +138,13 @@ public interface TimedMetric extends Metric {
   String getBucketRange();
 
   /**
-   * Add an successful event duration.
-   * This is intended for use by enhanced code and not general use.
-   */
-  void operationEnd(long startNanos);
-
-  /**
-   * Add an successful event duration with active thread context.
-   * This is intended for use by enhanced code and not general use.
-   */
-  void operationEnd(long startNanos, boolean activeThreadContext);
-
-  /**
-   * Add an error event duration.
-   * This is intended for use by enhanced code and not general use.
-   */
-  void operationErr(long startNanos);
-
-  /**
-   * Add an error event duration with active thread context.
-   * This is intended for use by enhanced code and not general use.
-   */
-  void operationErr(long startNanos, boolean activeThreadContext);
-
-  /**
-   * Return true if this TimedMetric has been pushed onto an active context for this thread.
+   * Return true if this timed metric is actively request timing.
    * <p>
    * This means that the current thread is actively collecting timing entries and this metric
    * has been pushed onto the nested context.
    * </p>
    */
-  boolean isActiveThreadContext();
+  boolean isRequestTiming();
 
   /**
    * Specify to collect per request detailed timing collection. The collectionCount is the number
@@ -154,7 +156,7 @@ public interface TimedMetric extends Metric {
    * detailed per request level timing entries can be collected for only selected endpoints.
    * </p>
    */
-  void setRequestTimingCollection(int collectionCount);
+  void setRequestTiming(int collectionCount);
 
   /**
    * Return the number of remaining requests to collect detailed timing on.
@@ -164,7 +166,7 @@ public interface TimedMetric extends Metric {
    * turns off for this metric.
    * </p>
    */
-  int getRequestTimingCollection();
+  int getRequestTiming();
 
   /**
    * Decrement the request timing collection count.
@@ -172,7 +174,7 @@ public interface TimedMetric extends Metric {
    * This is typically called internally when a request timing is reported and generally not
    * expected to be called by application code.
    */
-  void decrementCollectionCount();
+  void decrementRequestTiming();
 
   /**
    * Return extra attributes that can be included in the request logging.
