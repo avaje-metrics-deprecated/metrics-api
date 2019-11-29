@@ -2,6 +2,7 @@ package io.avaje.metrics;
 
 import io.avaje.metrics.spi.SpiMetricManager;
 import io.avaje.metrics.statistics.MetricStatistics;
+import io.avaje.metrics.statistics.MetricStatisticsAsJson;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -268,6 +269,13 @@ public class MetricManager {
    */
   public static List<MetricStatistics> collectNonEmptyJvmMetrics() {
     return mgr.collectNonEmptyJvmMetrics();
+  }
+
+  /**
+   * Collect the JVM metrics with support for writing them as JSON.
+   */
+  public static MetricStatisticsAsJson collectAsJson() {
+    return mgr.collectAsJson();
   }
 
   /**

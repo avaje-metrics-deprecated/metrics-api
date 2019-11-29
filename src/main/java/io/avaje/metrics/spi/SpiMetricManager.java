@@ -16,6 +16,7 @@ import io.avaje.metrics.TimedMetric;
 import io.avaje.metrics.TimedMetricGroup;
 import io.avaje.metrics.ValueMetric;
 import io.avaje.metrics.statistics.MetricStatistics;
+import io.avaje.metrics.statistics.MetricStatisticsAsJson;
 
 import java.util.Collection;
 import java.util.List;
@@ -77,6 +78,11 @@ public interface SpiMetricManager extends JvmMetrics, RequestTimingManager {
   MetricNameCache nameCache(MetricName baseName);
 
   /**
+   * Collect all the metrics.
+   */
+  List<MetricStatistics> collectMetrics();
+
+  /**
    * Return the collection of metrics that are considered non-empty. This means these are metrics
    * that have collected statistics since the last time they were collected.
    * <p>
@@ -89,6 +95,11 @@ public interface SpiMetricManager extends JvmMetrics, RequestTimingManager {
    * Return the collection of JVM metrics that are non-empty (for reporting).
    */
   List<MetricStatistics> collectNonEmptyJvmMetrics();
+
+  /**
+   * Collect the metrics for writing as JSON (typically to a supplied Appender).
+   */
+  MetricStatisticsAsJson collectAsJson();
 
   /**
    * Return a collection of all the metrics.

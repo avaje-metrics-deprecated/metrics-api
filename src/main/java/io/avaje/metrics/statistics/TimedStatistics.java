@@ -15,4 +15,12 @@ public interface TimedStatistics extends ValueStatistics {
    */
   String getBucketRange();
 
+  /**
+   * Return the metric name with bucket tag if necessary.
+   * <p>
+   * If the timed metric is a bucket it gets a "tag" appended
+   * like <code>";bucket=.."</code>
+   * </p>
+   */
+  String getNameWithBucket();
 }
