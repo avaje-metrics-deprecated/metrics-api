@@ -8,7 +8,7 @@
 
   <groupId>io.avaje.metrics</groupId>
   <artifactId>metrics-api</artifactId>
-  <version>8.2.2-SNAPSHOT</version>
+  <version>8.3-SNAPSHOT</version>
   <name>metrics-api</name>
   <url>https://avaje-metrics.github.io</url>
 
