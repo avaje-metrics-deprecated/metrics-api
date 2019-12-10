@@ -8,6 +8,7 @@ package io.avaje.metrics;
  *
  * @see GaugeDoubleMetric
  */
+@FunctionalInterface
 public interface GaugeDouble {
 
   /**

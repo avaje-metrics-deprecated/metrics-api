@@ -8,6 +8,7 @@ package io.avaje.metrics;
  *
  * @see GaugeLongMetric
  */
+@FunctionalInterface
 public interface GaugeLong {
 
   /**
