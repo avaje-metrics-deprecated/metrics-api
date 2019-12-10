@@ -34,7 +34,7 @@ public interface JvmMetrics {
   /**
    * Register all the standard JVM metrics - memory, threads, gc, os load and process memory.
    */
-  JvmMetrics registerStandardJvmMetrics();
+  JvmMetrics registerJvmMetrics();
 
   /**
    * Register a metric for OS load.
@@ -75,12 +75,12 @@ public interface JvmMetrics {
   JvmMetrics withLogMetricName(String errorMetricName, String warnMetricName);
 
   /**
-   * Register metrics for Logback error and warning messages.
+   * Register metrics for Logback error and warning message counters.
    */
   JvmMetrics registerLogbackMetrics();
 
   /**
-   * Register metrics for Log4J error and warning messages.
+   * Register metrics for Log4J error and warning message counters.
    */
   JvmMetrics registerLog4JMetrics();
 
