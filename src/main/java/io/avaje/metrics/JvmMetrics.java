@@ -17,6 +17,11 @@ package io.avaje.metrics;
 public interface JvmMetrics {
 
   /**
+   * Set to include details for GC and threads.
+   */
+  JvmMetrics withDetails();
+
+  /**
    * Set to only report when the metrics change. This is the default and means
    * that metrics that don't change are not reported.
    */
